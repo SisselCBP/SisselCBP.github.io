@@ -22,7 +22,7 @@
     <meta name="description" content="长颈鹿的脖子为什么那么长？">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Sissel&#39;s blog</title>
+    <title>【区块链】强网杯2021线上赛 OneGadget · Sissel&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 <meta name="generator" content="Hexo 5.2.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sissel&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【区块链】强网杯2021线上赛 OneGadget</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Sissel's blog</a>
 </header>
@@ -220,24 +231,80 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            【区块链】强网杯2021线上赛 OneGadget
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "区块链">区块链</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">312</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/06/20</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,41 +405,61 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/01/05/study-php_bypass_disable_functions/" >
-            
-                <span>【总结】绕过disable functions的若干种方法</span>
-        </a>
-        <div class="abstract-content">
-            <p>PHP bypass disable_functions 思路汇总</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/01/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "php">php</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "绕过">绕过</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>五层合约，构造符合要求的msg.data可以完成题目任务。</p>
+<a id="more"></a>
+<h2 id="题目简介"><a href="#题目简介" class="headerlink" title="题目简介"></a>题目简介</h2><p>五层合约，构造符合要求的msg.data可以完成题目任务。需要满足如下条件：</p>
+<h3 id="合约一"><a href="#合约一" class="headerlink" title="合约一"></a>合约一</h3><p>满足给出的条件：require(ecrecover(keccak256(“solved”), v, r, s) == 0x2B5AD5c4795c026514f8317c7a215E218DcCD6cF); 该地址私钥可查到，为0x02<br>签名用这个工具生成<br><a target="_blank" rel="noopener" href="https://gist.github.com/onyb/cf795c819fdf8aa6015de2772fde24de">https://gist.github.com/onyb/cf795c819fdf8aa6015de2772fde24de</a></p>
+<p>v，r，s分别是msg.data的前三个slot的值，其中v &amp; 0xff == 0x1b</p>
+<h3 id="合约二"><a href="#合约二" class="headerlink" title="合约二"></a>合约二</h3><p>msg.data的slot0的高字节和blockhash相同，这里就决定了要用攻击合约。</p>
+<h3 id="合约三"><a href="#合约三" class="headerlink" title="合约三"></a>合约三</h3><p>msg.data的slot1和slot2末尾不为0，且相加后有整数上溢。前三个合约都限制的是v，r，s的值</p>
+<h3 id="合约四"><a href="#合约四" class="headerlink" title="合约四"></a>合约四</h3><p>有些复杂</p>
+<ol>
+<li>data[0x24:0x44]-data[0x44:0x64] == data[0x64:0x84] - data[0x84:0xa4]</li>
+<li>data从0x24开始，与从0xa4开始，对应位置同奇偶（4组）</li>
+</ol>
+<h3 id="合约五"><a href="#合约五" class="headerlink" title="合约五"></a>合约五</h3><p>设msg.data[0xc4:0xe4] % 6 -&gt; k，有 data[0x04+k0x20 : 0x04+k0x20 + 0x20] == keccak256(“choose”) （六个data的slot里，选一个是keccak256(“choose”)）</p>
+<h3 id="最终的攻击合约"><a href="#最终的攻击合约" class="headerlink" title="最终的攻击合约"></a>最终的攻击合约</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity 0.4.24;</span><br><span class="line"></span><br><span class="line">contract AA&#123;</span><br><span class="line">    address public next;</span><br><span class="line">    constructor(bytes memory a) payable public &#123;</span><br><span class="line">        next &#x3D; 0x111;</span><br><span class="line">            assembly &#123;</span><br><span class="line">                return(add(0x20, a), mload(a))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract BB&#123;</span><br><span class="line">    constructor() payable public&#123;</span><br><span class="line">        address a &#x3D; 0x111;</span><br><span class="line">        a.call(bytes4(0xf4ab27cc), blockhash(block.number-1)|0xff1b ,0x3ec07bbb0fe7fd6e6d2abbb5f0a0c9947173da8daa5265f6231beea212772585,0x26236f50af44e91e608d5946b411a4f86a83ace0543bf8efca7bee233d1f98db,0xe201a979a73f6a2947c212ebbed36f5d85b35629db25dfd9441d562a1c6ca896,0xc9649d0f469c55d93b24b07c82444ac17ec3287c850f72d2eb7d55ab47151bec,0x0000000000000000000000000000000000000000000000000000000000000001,0x0000000000000000000000000000000000000000000000000000000000000003,0x0000000000000000000000000000000000000000000000000000000000000000, 0xc9649d0f469c55d93b24b07c82444ac17ec3287c850f72d2eb7d55ab47151bec);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://sisselcbp.github.com">Sissel</a>
+            <p>原文链接：<a href="https://sisselcbp.github.com/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/">https://sisselcbp.github.com/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/</a>
+            <p>发表日期：<a href="https://sisselcbp.github.com/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/">June 20th 2021, 12:12:12 pm</a>
+            <p>更新日期：<a href="https://sisselcbp.github.com/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/">June 29th 2021, 4:49:51 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/12/02/study-sqli/" title= "【学习】天枢队内培训-SQL注入部分">
+                    <div class="prevTitle">【学习】天枢队内培训-SQL注入部分</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -462,6 +549,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">题目简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E4%B8%80"><span class="toc-number">1.1.</span> <span class="toc-text">合约一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E4%BA%8C"><span class="toc-number">1.2.</span> <span class="toc-text">合约二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E4%B8%89"><span class="toc-number">1.3.</span> <span class="toc-text">合约三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E5%9B%9B"><span class="toc-number">1.4.</span> <span class="toc-text">合约四</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%BA%A6%E4%BA%94"><span class="toc-number">1.5.</span> <span class="toc-text">合约五</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%9A%84%E6%94%BB%E5%87%BB%E5%90%88%E7%BA%A6"><span class="toc-number">1.6.</span> <span class="toc-text">最终的攻击合约</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -695,7 +800,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/05</span><a class="archive-post-title" href= "/2021/01/05/study-php_bypass_disable_functions/" >【总结】绕过disable functions的若干种方法</a>
+            <span class="archive-post-date">06/20</span><a class="archive-post-title" href= "/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/" >【区块链】强网杯2021线上赛 OneGadget</a>
         </li>
     
     
@@ -863,10 +968,6 @@
     
         <span class="sidebar-tag-name" data-tags="模板注入"><span class="iconfont-archer">&#xe606;</span>模板注入</span>
     
-        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
-    
-        <span class="sidebar-tag-name" data-tags="绕过"><span class="iconfont-archer">&#xe606;</span>绕过</span>
-    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -932,6 +1033,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>

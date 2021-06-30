@@ -5,6 +5,12 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
 >
+<url>
+ <loc>https://sisselcbp.github.io/2021/06/20/wp-qwb2021-qual-blockchain-onegadget</loc>
+ <priority>0.3</priority>
+ <lastmod>2021-06-21</lastmod>
+ <changefreq>always</changefreq>
+</url>
 
 <url>
  <loc>https://sisselcbp.github.io/2019/03/19/paper-merkle-tree-vulnerability</loc>
