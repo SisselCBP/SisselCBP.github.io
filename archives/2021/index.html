@@ -22,7 +22,7 @@
     <meta name="description" content="长颈鹿的脖子为什么那么长？">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>【SQL】SQL语句怎么写 · Sissel&#39;s blog</title>
+    <title>Sissel&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,23 +203,12 @@
 <meta name="generator" content="Hexo 5.2.0"></head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >Sissel&#39;s blog</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">【SQL】SQL语句怎么写</a>
-            </div>
-    </div>
     
     <a class="home-link" href=/>Sissel's blog</a>
 </header>
@@ -231,78 +220,24 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
-            【SQL】SQL语句怎么写
-            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "淘宝店">淘宝店</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SQL">SQL</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "面试">面试</a>
-    
-</div>
-                
-                
-                    <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">466</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/03/29</span>
-                    
-                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                        <span class="iconfont-archer">&#xe602;</span>
-                        <span id="busuanzi_value_page_pv"></span>
-                    </span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
         
     </div>
 </div>
@@ -403,122 +338,41 @@ height:50vh;
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>持续更新，因为近期写了好多sql语句，所以来列个入门级的内容，掌握了这些再去多刷刷题就好啦</p>
-<a id="more"></a>
-<h2 id="随便写写"><a href="#随便写写" class="headerlink" title="随便写写"></a>随便写写</h2><ul>
-<li>一般来说，我们写一个查询从两个方向考虑，一个是看输出的格式，比如直接输出成rows，或者要 create table，或者修改一些输出格式，比如行变列，列变行。</li>
-<li>这一层面一般是比较简单的，只要得到数据，都可以用 <code>select a.xxx as 输出列的名字, b.yyy as 输出列的名字</code> 来封装好，其他的输出无非是format一下<ul>
-<li><code>create table as/like</code></li>
-<li><code>group_concat()【行变列】</code></li>
-<li><code>case xx when xx then xx else xx end</code> </li>
-</ul>
-</li>
-<li>之后就是拨开输出的层面，去看我们需要什么数据，在哪些库里。主要是查什么？<ul>
-<li>这几个商品 <code>Item</code>、<code>ID</code></li>
-</ul>
-</li>
-<li>一般都需要用到分组<ul>
-<li>每一天的最大值 <code>group by Date</code></li>
-<li>每个班级的前三名 <code>group by ClassID</code></li>
-</ul>
-</li>
-<li>排序<ul>
-<li>前三名 <code>order by score desc</code></li>
-</ul>
-</li>
-<li>表的连接，根据不同的情况，一般需要<ul>
-<li><code>outer join</code></li>
-<li><code>inner join</code></li>
-<li><code>select xx,xx from a, b where a.x=b.x</code></li>
-</ul>
-</li>
-<li>注意一些条件的写法<ul>
-<li><code>group by having</code></li>
-<li><code>where</code></li>
-<li><code>xxx join table_a on condition</code></li>
-</ul>
-</li>
-<li>其他<ul>
-<li>唯一性 <code>distinct</code></li>
-<li>升降序 <code>desc</code>、`asc</li>
-<li>top语句 【不一定支持】</li>
-<li>like、通配符</li>
-<li>limit</li>
-<li>count()</li>
-<li>求和，平均值</li>
-<li>最大最小值</li>
-<li><code>isnull()</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="常见的题型"><a href="#常见的题型" class="headerlink" title="常见的题型"></a>常见的题型</h2><ul>
-<li>分组后的top x【每个班的最高分】</li>
-<li>计数，有多少个<code>count()</code></li>
-<li>连续几天签到</li>
-<li>简单的循环【变量】</li>
-<li>行列变换</li>
-<li>连接的种类，left join/right join/outer join等</li>
-<li>null的处理</li>
-<li>…</li>
-</ul>
-<p>还补充点啥</p>
-<p>剩下的就是多写多搜了，mysql报错比起其他语言来说难调试很多。。</p>
-<h2 id="除了select"><a href="#除了select" class="headerlink" title="除了select"></a>除了select</h2><p>当然还有</p>
-<ul>
-<li>建table和view</li>
-<li>加索引</li>
-<li>加列、改列</li>
-<li>update、insert</li>
-<li>不同的清空表的方法</li>
-<li>这就太多了。。自己搜面试题吧</li>
-</ul>
-
-    </article>
-    <!-- license  -->
+            <main class="main index-page">
     
-        <div class="license-wrapper">
-            <p>原文作者：<a href="https://sisselcbp.github.com">Sissel</a>
-            <p>原文链接：<a href="https://sisselcbp.github.com/2019/03/29/study-how-to-interview-for-mysql/">https://sisselcbp.github.com/2019/03/29/study-how-to-interview-for-mysql/</a>
-            <p>发表日期：<a href="https://sisselcbp.github.com/2019/03/29/study-how-to-interview-for-mysql/">March 29th 2019, 2:17:40 am</a>
-            <p>更新日期：<a href="https://sisselcbp.github.com/2019/03/29/study-how-to-interview-for-mysql/">November 4th 2020, 9:50:27 am</a>
-            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2021/01/05/study-php_bypass_disable_functions/" >
+            
+                <span>【总结】绕过disable functions的若干种方法</span>
+        </a>
+        <div class="abstract-content">
+            <p>PHP bypass disable_functions 思路汇总</p>
         </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/01/05</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "php">php</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "绕过">绕过</a>
+    
+</div>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/04/04/study-hard-mysql-query-4/" title= "【SQL】四个比较难的SQL语句">
-                    <div class="nextTitle">【SQL】四个比较难的SQL语句</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/03/26/study-get-startted-with-python/" title= "python入门的文档总结">
-                    <div class="prevTitle">python入门的文档总结</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
     
-    
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -608,24 +462,6 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99"><span class="toc-number">1.</span> <span class="toc-text">随便写写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%A2%98%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">常见的题型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%A4%E4%BA%86select"><span class="toc-number">3.</span> <span class="toc-text">除了select</span></a></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1096,8 +932,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
